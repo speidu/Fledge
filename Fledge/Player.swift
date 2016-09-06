@@ -37,4 +37,9 @@ class Player: SKSpriteNode {
         self.removeAllActions()
         runAction(rotate, withKey: "rotate")
     }
+    
+    func stop() {
+        self.removeAllActions()
+        self.removeFromParent()
+    }
 }

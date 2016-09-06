@@ -60,7 +60,8 @@ class Bottomground : SKSpriteNode {
     }
     
     func stop() {
-        removeAllActions()
+        self.removeAllActions()
+        self.removeFromParent()
     }
     
 }

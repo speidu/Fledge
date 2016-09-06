@@ -67,7 +67,8 @@ class Mountains : SKSpriteNode {
     }
     
     func stop() {
-        removeAllActions()
+        self.removeAllActions()
+        self.removeFromParent()
     }
     
 }

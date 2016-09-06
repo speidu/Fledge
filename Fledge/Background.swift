@@ -67,7 +67,8 @@ class Background : SKSpriteNode {
     }
     
     func stop() {
-        removeAllActions()
+        self.removeAllActions()
+        self.removeFromParent()
     }
     
 }

@@ -61,7 +61,8 @@ class BottomPlatform : SKSpriteNode {
     }
     
     func stop() {
-        removeAllActions()
+        self.removeAllActions()
+        self.removeFromParent()
     }
     
 }
