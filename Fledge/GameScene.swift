@@ -63,6 +63,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody?.collisionBitMask = platformCategory
         player.physicsBody?.allowsRotation = false
         player.physicsBody?.restitution = 0.0
+        player.name = "playerNode"
         
         // Moving & platforms node
         addChild(moving)
@@ -197,13 +198,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.spawnPlatforms()
         })
         
-        let coinWait = SKAction.waitForDuration(5.425)
+     /*   let coinWait = SKAction.waitForDuration(0.2) // 5.425
         let coinRun = SKAction.runBlock({
-            //self.spawnCoins()
-        })
+            self.spawnCoins()
+        }) */
         
-        self.runAction(SKAction.repeatActionForever(SKAction.sequence([actionwait,actionrun])))
-        //self.runAction(SKAction.repeatActionForever(SKAction.sequence([coinWait,coinRun])))
+        self.runAction(SKAction.repeatActionForever(SKAction.sequence([actionwait,actionrun])), withKey: "platformSpawn")
+      //  self.runAction(SKAction.repeatActionForever(SKAction.sequence([coinWait,coinRun])), withKey: "coinSpawn")
         
     }
     
@@ -244,6 +245,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             platform2.physicsBody?.allowsRotation = false
             platform2.physicsBody?.restitution = 0.0
             platform2.physicsBody?.affectedByGravity = false
+            platform2.name = "platform2Node"
         }
         
         let randomAddedHeight =  CGFloat(arc4random_uniform(25))
@@ -400,6 +402,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         platform.physicsBody?.allowsRotation = false
         platform.physicsBody?.restitution = 0.0
         platform.physicsBody?.affectedByGravity = false
+        platform.name = "platformNode"
         moving.addChild(platform)
         
         // Setup scoreNode for scorekeeping
@@ -410,6 +413,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreNode.physicsBody?.contactTestBitMask = playerCategory
         scoreNode.physicsBody?.affectedByGravity = false
         scoreNode.zPosition = 1
+        scoreNode.name = "scoreNode"
         moving.addChild(scoreNode)
         
         // Platform moving time
@@ -431,8 +435,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         platformSpawned = false
     }
     
-    func spawnCoins() {
-        /*
+  /*  func spawnCoins() {
+        
         if (platformSpawned == false && coinSpawned == false) {
             
             // Setting up coins
@@ -447,6 +451,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             coin.physicsBody?.allowsRotation = false
             coin.physicsBody?.restitution = 0.0
             coin.physicsBody?.affectedByGravity = false
+            coin.name = "coinNode"
             
             let screenWidth = self.screenSize.height
             let determineCoinSpawn = arc4random_uniform(6)
@@ -526,7 +531,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 break
             }
             
-            coins.addChild(coin)
+            moving.addChild(coin)
             // delayCoinSpawn()
             // Platform moving time
             // let moveDuration = NSTimeInterval(self.frame.size.width * 0.0055) // default 0.0055
@@ -558,8 +563,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             coin.runAction(movePlatformAndRemove)
             // coin.runAction(moveCoinUp, withKey: "CoinUp")
         }
- */
-    }
+ 
+    } */
     
     func didBeginContact(contact: SKPhysicsContact) {
         if isAlive { // Check if player is alive, otherwise do nothing
@@ -569,13 +574,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             } else if (contact.bodyA.categoryBitMask == playerCategory && contact.bodyB.categoryBitMask == coinCategory || contact.bodyA.categoryBitMask == coinCategory && contact.bodyB.categoryBitMask == playerCategory) {
                 score += 5 // Increments score by 5 and makes the coin disappear
-                coins.removeFromParent()
-                addCoinToParent() // ???
+             /*   moving.enumerateChildNodesWithName("coinNode") {
+                    node, stop in
+                    node.removeFromParent()
+                }
+                // Delays adding the coin back to the moving node, so the same coin you collected won't show up again
+                addCoinToParent() */
+                
                 scoreLabel.text = "\(score)" // Update scoreLabels text
             } else if (contact.bodyA.categoryBitMask == platformCategory || contact.bodyB.categoryBitMask == platformCategory) {
                 // Player has died, stop the game && stop spawning platforms
+                self.removeActionForKey("platformSpawn")
+           //     self.removeActionForKey("coinSpawn")
                 isAlive = false
                 moving.speed = 0
+                moving.enumerateChildNodesWithName("platformNode") {
+                    node, stop in
+                    node.removeFromParent()
+                }
+                moving.enumerateChildNodesWithName("platform2Node") {
+                    node, stop in
+                    node.removeFromParent()
+                }
+                moving.enumerateChildNodesWithName("scoreNode") {
+                    node, stop in
+                    node.removeFromParent()
+                }
+             /*   moving.enumerateChildNodesWithName("coinNode") {
+                    node, stop in
+                     node.removeFromParent()
+                } */
+                /*let coinNode = moving.childNodeWithName("coinNode")
+                coinNode?.removeFromParent() */
                 scoreLabel.removeFromParent()
                 
                 if (backgroundMusicPlayer.playing) {
@@ -672,6 +702,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.view!.addSubview(restartGameButton)
                 self.view!.addSubview(muteButton)
                 
+                self.physicsWorld.gravity = CGVectorMake(0.0, -6.5)
+                
                 // Animate the buttons
                 UIView.animateWithDuration(0.5, animations: {
                     restartGameButton.layer.position.x =  self.frame.size.width - self.frame.size.width * 0.3
@@ -682,6 +714,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
     }
+    
+  /*  func addCoinToParent() {
+    delay(1.0) {
+        moving.addChild(coin)
+    }
+    } */
     
     func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if isAlive && stuffInTheScene { // Check if player is alive & game has started
@@ -714,12 +752,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func addCoinToParent() {
-        delay(1.0) {
-            //self.moving.addChild(self.coins)
-        }
-    }
-    
     func muteAudio(sender: UIButton!) {
         if (muted == false) {
             muted = true
@@ -742,11 +774,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Call restart function after 0.5s delay
         delay(0.5) {
-            moving.removeAllChildren()
+          /*  moving.removeAllChildren()
             moving.removeAllActions()
             moving.removeFromParent()
             self.removeAllChildren()
-            self.removeAllActions()
+            self.removeAllActions() */
             self.restart("RestartGame")
         }
     }
@@ -777,9 +809,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameOverLabel.removeFromSuperview()
         backToMainMenuButton.removeFromSuperview()
         muteButton.removeFromSuperview()
-        self.removeAllChildren()
-        self.removeAllActions()
-        self.removeFromParent()
+        
         
         // Setup transition to GameScene
         let skView = self.view! as SKView
@@ -795,15 +825,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // scene
         var scene: SKScene!
         if ButtonType == "RestartGame" {
-            scene = GameScene(size: skView.bounds.size)
-            scene.scaleMode = .AspectFill
+            player.physicsBody?.dynamic = false
+            score = 0
+            self.physicsWorld.gravity = CGVectorMake(0.0, -1.5)
+            player.position = CGPointMake(self.frame.size.width / 2.8, self.frame.size.height * 0.5 - 50)
+            scoreLabel.text = "\(score)"
+            moving.addChild(scoreLabel)
+            isAlive = true
+            moving.speed = 1
+            player.physicsBody?.dynamic = true
+            self.startSpawningPlatforms()
+          /*  scene = GameScene(size: skView.bounds.size)
+            scene.scaleMode = .AspectFill */
         } else if ButtonType == "BackToMenu" {
+            self.removeAllChildren()
+            self.removeAllActions()
+            self.removeFromParent()
             scene = MainMenuScene(size: skView.bounds.size)
             scene.scaleMode = .AspectFill
+            skView.presentScene(scene, transition: transition)
+
         }
         
         // Present new scene with transition effect
-        skView.presentScene(scene, transition: transition)
+      //  skView.presentScene(scene, transition: transition)
     }
     
     override func update(currentTime: CFTimeInterval) {
