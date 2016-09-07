@@ -588,18 +588,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
            //     self.removeActionForKey("coinSpawn")
                 isAlive = false
                 moving.speed = 0
-                moving.enumerateChildNodesWithName("platformNode") {
-                    node, stop in
-                    node.removeFromParent()
-                }
-                moving.enumerateChildNodesWithName("platform2Node") {
-                    node, stop in
-                    node.removeFromParent()
-                }
-                moving.enumerateChildNodesWithName("scoreNode") {
-                    node, stop in
-                    node.removeFromParent()
-                }
              /*   moving.enumerateChildNodesWithName("coinNode") {
                     node, stop in
                      node.removeFromParent()
@@ -829,10 +817,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             score = 0
             self.physicsWorld.gravity = CGVectorMake(0.0, -1.5)
             player.position = CGPointMake(self.frame.size.width / 2.8, self.frame.size.height * 0.5 - 50)
+            moving.enumerateChildNodesWithName("platformNode") {
+                node, stop in
+                node.removeFromParent()
+            }
+            moving.enumerateChildNodesWithName("platform2Node") {
+                node, stop in
+                node.removeFromParent()
+            }
+            moving.enumerateChildNodesWithName("scoreNode") {
+                node, stop in
+                node.removeFromParent()
+            }
             scoreLabel.text = "\(score)"
             moving.addChild(scoreLabel)
             isAlive = true
             moving.speed = 1
+            backgroundMusicPlayer.play()
             player.physicsBody?.dynamic = true
             self.startSpawningPlatforms()
           /*  scene = GameScene(size: skView.bounds.size)
