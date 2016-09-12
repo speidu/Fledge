@@ -21,7 +21,7 @@ var movingBottomGround: Bottomground!
 var isAlive = true
 var restartGameButton = UIButton()
 var backToMainMenuButton = UIButton()
-let restartGameButtonImage = UIImage(named: "playButtonImage") as UIImage!
+let restartGameButtonImage = UIImage(named: "restartGameButton") as UIImage!
 var muteButton = UIButton()
 let mutedImage = UIImage(named: "Muted") as UIImage!
 let unmutedImage = UIImage(named: "Unmuted") as UIImage!
@@ -73,8 +73,13 @@ var coinSpawned = Bool()
 var muted = Bool()
 var newHighscore = Bool()
 
+let fadeOut = SKAction.fadeOutWithDuration(0.1)
+
 var backgroundMusicPlayer = AVAudioPlayer()
 let backgroundMusic = NSBundle.mainBundle().pathForResource("background_music", ofType: "wav")
+
+var coinSoundPlayer = AVAudioPlayer()
+let coinSound = NSBundle.mainBundle().pathForResource("point_low", ofType: "wav")
 
 var hitSoundPlayer = AVAudioPlayer()
 let hitSound = NSBundle.mainBundle().pathForResource("hit_sound_bestest", ofType: "wav")

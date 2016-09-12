@@ -185,6 +185,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+        if coinSound != nil {
+            let audioURL = NSURL.fileURLWithPath(coinSound!)
+            do {
+                coinSoundPlayer = try AVAudioPlayer(contentsOfURL: audioURL)
+                coinSoundPlayer.prepareToPlay()
+            } catch {
+                // combine catch
+                print("Can't find audio file")
+            }
+        }
+        
         if (muted == false) {
             backgroundMusicPlayer.play()
         }
@@ -198,13 +209,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.spawnPlatforms()
         })
         
-     /*   let coinWait = SKAction.waitForDuration(0.2) // 5.425
+        let coinWait = SKAction.waitForDuration(5.425) // 5.425 0.2
         let coinRun = SKAction.runBlock({
             self.spawnCoins()
-        }) */
+        })
         
         self.runAction(SKAction.repeatActionForever(SKAction.sequence([actionwait,actionrun])), withKey: "platformSpawn")
-      //  self.runAction(SKAction.repeatActionForever(SKAction.sequence([coinWait,coinRun])), withKey: "coinSpawn")
+        self.runAction(SKAction.repeatActionForever(SKAction.sequence([coinWait,coinRun])), withKey: "coinSpawn")
         
     }
     
@@ -424,7 +435,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let removePlatform = SKAction.removeFromParent()
         let movePlatformAndRemove = SKAction.sequence([movePlatform, removePlatform])
         
-        platform.runAction(movePlatformAndRemove, completion: setSpawnedToFalse)
+        platform.runAction(movePlatformAndRemove)
+        delay(0.1){
+            platformSpawned = false
+        }
         if newLocation == 1 || newLocation == 2 { // Only apply action to platform2 if being used
             platform2.runAction(movePlatformAndRemove)
         }
@@ -435,9 +449,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         platformSpawned = false
     }
     
-  /*  func spawnCoins() {
+    func spawnCoins() {
         
-        if (platformSpawned == false && coinSpawned == false) {
+       // if (platformSpawned == false && coinSpawned == false)
+         if (coinSpawned == false) {
             
             // Setting up coins
             coin = SKSpriteNode(texture: coinTexture)
@@ -454,14 +469,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             coin.name = "coinNode"
             
             let screenWidth = self.screenSize.height
-            let determineCoinSpawn = arc4random_uniform(6)
+        //    let determineCoinSpawn = arc4random_uniform(6)
             let coinSpawnLocation = arc4random_uniform(4)
-            let coinMovement = arc4random_uniform(2)
+            var coinMovement = arc4random_uniform(2)
             
-            switch determineCoinSpawn {
+       /*     switch determineCoinSpawn {
             case 0...1:
                 break
-            case 2...5:
+            case 2...5: */
                 switch coinSpawnLocation {
                 case 0:
                     switch screenWidth {
@@ -527,12 +542,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     break
                 }
                 
-            default:
+         /*   default:
                 break
+            } */
+            
+            if (platformSpawned == true) {
+                coin.position =  CGPointMake(self.frame.size.width + coin.frame.width, self.frame.size.height * 0.99)
+                coinMovement = 0
             }
             
-            moving.addChild(coin)
-            // delayCoinSpawn()
+            coins.addChild(coin)
+            delayCoinSpawn()
             // Platform moving time
             // let moveDuration = NSTimeInterval(self.frame.size.width * 0.0055) // default 0.0055
             let moveDuration = NSTimeInterval(self.frame.size.width * 0.0070)
@@ -561,10 +581,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             coin.runAction(movePlatformAndRemove)
-            // coin.runAction(moveCoinUp, withKey: "CoinUp")
         }
  
-    } */
+    }
+    
+    func delayCoinSpawn() {
+        coinSpawned = true
+        delay(2.0) {
+            coinSpawned = false
+        }
+    }
     
     func didBeginContact(contact: SKPhysicsContact) {
         if isAlive { // Check if player is alive, otherwise do nothing
@@ -574,26 +600,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             } else if (contact.bodyA.categoryBitMask == playerCategory && contact.bodyB.categoryBitMask == coinCategory || contact.bodyA.categoryBitMask == coinCategory && contact.bodyB.categoryBitMask == playerCategory) {
                 score += 5 // Increments score by 5 and makes the coin disappear
-             /*   moving.enumerateChildNodesWithName("coinNode") {
-                    node, stop in
-                    node.removeFromParent()
-                }
-                // Delays adding the coin back to the moving node, so the same coin you collected won't show up again
-                addCoinToParent() */
-                
+                coinSoundPlayer.play()
+                // Animates the coin disappearing and  delays adding the coin back to the moving node, so the same coin you collected won't show up again
+                coin.runAction(fadeOut, completion: addCoinToParent)
                 scoreLabel.text = "\(score)" // Update scoreLabels text
-            } else if (contact.bodyA.categoryBitMask == platformCategory || contact.bodyB.categoryBitMask == platformCategory) {
+            }   else if (contact.bodyA.categoryBitMask == platformCategory || contact.bodyB.categoryBitMask == platformCategory) {
                 // Player has died, stop the game && stop spawning platforms
                 self.removeActionForKey("platformSpawn")
-           //     self.removeActionForKey("coinSpawn")
+                self.removeActionForKey("coinSpawn")
                 isAlive = false
                 moving.speed = 0
-             /*   moving.enumerateChildNodesWithName("coinNode") {
-                    node, stop in
-                     node.removeFromParent()
-                } */
-                /*let coinNode = moving.childNodeWithName("coinNode")
-                coinNode?.removeFromParent() */
                 scoreLabel.removeFromParent()
                 
                 if (backgroundMusicPlayer.playing) {
@@ -602,7 +618,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if (muted == false) {
                     hitSoundPlayer.play()
                 }
-                
+                coins.removeFromParent()
                 // Jump back a bit after colliding
                 player.physicsBody?.applyImpulse(CGVectorMake(-15, 30))
                 self.physicsWorld.gravity = CGVectorMake(0.0, -6.5)
@@ -703,11 +719,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-  /*  func addCoinToParent() {
-    delay(1.0) {
-        moving.addChild(coin)
-    }
+    func addCoinToParent() {
+        coins.enumerateChildNodesWithName("scoreNode") {
+            node, stop in
+            node.removeFromParent()
+        }
+  /*  delay(1.0) {
+        moving.addChild(coins)
     } */
+    }
     
     func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if isAlive && stuffInTheScene { // Check if player is alive & game has started
@@ -716,8 +736,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 switch swipeGesture.direction {
                 case UISwipeGestureRecognizerDirection.Up: // Swipe up
                     self.physicsWorld.gravity = CGVectorMake(0.0, 6.5)
+                    player.startFlyingUp()
                 case UISwipeGestureRecognizerDirection.Down: // Swipe down
                     self.physicsWorld.gravity = CGVectorMake(0.0, -6.5)
+                    player.startFlyingDown()
                 default:
                     break
                 }
@@ -829,12 +851,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 node, stop in
                 node.removeFromParent()
             }
+            coins.enumerateChildNodesWithName("coinNode") {
+                node, stop in
+                node.removeFromParent()
+            }
+            coins.removeFromParent()
             scoreLabel.text = "\(score)"
             moving.addChild(scoreLabel)
             isAlive = true
             moving.speed = 1
             backgroundMusicPlayer.play()
             player.physicsBody?.dynamic = true
+            moving.addChild(coins)
             self.startSpawningPlatforms()
           /*  scene = GameScene(size: skView.bounds.size)
             scene.scaleMode = .AspectFill */
