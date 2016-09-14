@@ -19,7 +19,7 @@ class Player: SKSpriteNode {
     let playerDown2 = SKTexture(imageNamed: "PlayerDown2")
     
     init(size: CGSize) {
-        super.init(texture: PlayerTexture1, color: UIColor.clearColor(), size: CGSizeMake(size.width, size.height))
+        super.init(texture: PlayerTexture1, color: UIColor.clear, size: CGSize(width: size.width, height: size.height))
         zPosition = 7
     }
     
@@ -30,28 +30,28 @@ class Player: SKSpriteNode {
     // Animation normal
     func startFlying() {
         self.removeAllActions()
-        let animation = SKAction.animateWithTextures([PlayerTexture1, PlayerTexture2], timePerFrame: 0.2)
-        runAction(SKAction.repeatActionForever(animation))
+        let animation = SKAction.animate(with: [PlayerTexture1, PlayerTexture2], timePerFrame: 0.2)
+        run(SKAction.repeatForever(animation))
     }
     
     func startFlyingUp() {
         self.removeAllActions()
-        let upAnimation = SKAction.animateWithTextures([playerUp, playerUp2], timePerFrame: 0.2)
-        runAction(SKAction.repeatActionForever(upAnimation))
+        let upAnimation = SKAction.animate(with: [playerUp, playerUp2], timePerFrame: 0.2)
+        run(SKAction.repeatForever(upAnimation))
     }
     
     func startFlyingDown() {
         self.removeAllActions()
-        let downAnimation = SKAction.animateWithTextures([playerDown, playerDown2], timePerFrame: 0.2)
-        runAction(SKAction.repeatActionForever(downAnimation))
+        let downAnimation = SKAction.animate(with: [playerDown, playerDown2], timePerFrame: 0.2)
+        run(SKAction.repeatForever(downAnimation))
     }
     
     func hasHitObstacle() {
         // Rotate player in a anticlockwise direction
-        let rotate = SKAction.rotateByAngle(CGFloat(M_PI), duration: 0.5)
+        let rotate = SKAction.rotate(byAngle: CGFloat(M_PI), duration: 0.5)
         // Stop flying animation & start rotate animation
         self.removeAllActions()
-        runAction(rotate, withKey: "rotate")
+        run(rotate, withKey: "rotate")
     }
     
     func stop() {

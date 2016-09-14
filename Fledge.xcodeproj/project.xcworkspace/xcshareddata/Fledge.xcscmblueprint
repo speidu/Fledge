@@ -10,7 +10,7 @@
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "1FB832BF-B3A6-4707-800E-E1BF9D79A332",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "07830038E0B7170CC9E2E3AE27BBF5E50B05A888" : "Fledge\/",
-    "A6A4864BBCE1DED7686911790CC3898C8132CCFC" : ""
+    "A6A4864BBCE1DED7686911790CC3898C8132CCFC" : ".."
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "Fledge",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,

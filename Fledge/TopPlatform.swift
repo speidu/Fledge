@@ -14,11 +14,11 @@ class TopPlatform : SKSpriteNode {
     let TopPlatformTexture = SKTexture(imageNamed: "TopPlatform")
     
     // Screen size detection
-    let screenSize: CGRect = UIScreen.mainScreen().bounds
+    let screenSize: CGRect = UIScreen.main.bounds
     
     init(size:CGSize) {
-        super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeMake(size.width, size.height))
-        position = CGPointMake(0.0, 0.0)
+        super.init(texture: nil, color: UIColor.clear, size: CGSize(width: size.width, height: size.height))
+        position = CGPoint(x: 0.0, y: 0.0)
         zPosition = 6
         physicsBody?.affectedByGravity = false
         
@@ -34,16 +34,16 @@ class TopPlatform : SKSpriteNode {
             switch screenWidth {
             case 0...480:
                 // Iphone 4
-                topPlatformSprite.position = CGPointMake(i * topPlatformSprite.size.width, 358)
+                topPlatformSprite.position = CGPoint(x: i * topPlatformSprite.size.width, y: 358)
             case 481...568:
                 // Iphone 5
-                topPlatformSprite.position = CGPointMake(i * topPlatformSprite.size.width, 438)
+                topPlatformSprite.position = CGPoint(x: i * topPlatformSprite.size.width, y: 438)
             case 569...667:
                 // Iphone 6
-                topPlatformSprite.position = CGPointMake(i * topPlatformSprite.size.width, 468)
+                topPlatformSprite.position = CGPoint(x: i * topPlatformSprite.size.width, y: 468)
             default:
                 // Iphone 6 plus
-                topPlatformSprite.position = CGPointMake(i * topPlatformSprite.size.width, 508)
+                topPlatformSprite.position = CGPoint(x: i * topPlatformSprite.size.width, y: 508)
             }
             addChild(topPlatformSprite)
         }
@@ -54,10 +54,10 @@ class TopPlatform : SKSpriteNode {
     
     func begin() {
         // Moving the ground at speed
-        let moveGroundSprite = SKAction.moveByX(-TopPlatformTexture.size().width, y: 0, duration: NSTimeInterval(0.00624 * TopPlatformTexture.size().width))
-        let resetGroundSprite = SKAction.moveByX(TopPlatformTexture.size().width, y: 0, duration: 0.0)
+        let moveGroundSprite = SKAction.moveBy(x: -TopPlatformTexture.size().width, y: 0, duration: TimeInterval(0.00624 * TopPlatformTexture.size().width))
+        let resetGroundSprite = SKAction.moveBy(x: TopPlatformTexture.size().width, y: 0, duration: 0.0)
         let moveSequence = SKAction.sequence([moveGroundSprite, resetGroundSprite])
-        runAction(SKAction.repeatActionForever(moveSequence))
+        run(SKAction.repeatForever(moveSequence))
     }
     
     func stop() {

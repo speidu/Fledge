@@ -14,10 +14,10 @@ class Bottomground : SKSpriteNode {
     let bottomGroundTexture = SKTexture(imageNamed: "BottomGround")
     
     // Screen size detection
-    let screenSize: CGRect = UIScreen.mainScreen().bounds
+    let screenSize: CGRect = UIScreen.main.bounds
     
     init(size:CGSize) {
-        super.init(texture: nil, color: UIColor.clearColor(), size: CGSizeMake(size.width, size.height))
+        super.init(texture: nil, color: UIColor.clear, size: CGSize(width: size.width, height: size.height))
         zPosition = 3
         anchorPoint = CGPoint(x: 0.5, y: 1)
         
@@ -33,16 +33,16 @@ class Bottomground : SKSpriteNode {
             switch screenWidth {
             case 0...480:
                 // Iphone 4
-                bottomGroundSprite.position = CGPointMake(i * bottomGroundSprite.size.width, -103)
+                bottomGroundSprite.position = CGPoint(x: i * bottomGroundSprite.size.width, y: -103)
             case 481...568:
                 // Iphone 5
-                bottomGroundSprite.position = CGPointMake(i * bottomGroundSprite.size.width, -40)
+                bottomGroundSprite.position = CGPoint(x: i * bottomGroundSprite.size.width, y: -40)
             case 569...667:
                 // Iphone 6
-                bottomGroundSprite.position = CGPointMake(i * bottomGroundSprite.size.width, -10)
+                bottomGroundSprite.position = CGPoint(x: i * bottomGroundSprite.size.width, y: -10)
             default:
                 // Iphone 6 plus
-                bottomGroundSprite.position = CGPointMake(i * bottomGroundSprite.size.width, 30)
+                bottomGroundSprite.position = CGPoint(x: i * bottomGroundSprite.size.width, y: 30)
             }
             addChild(bottomGroundSprite)
         }
@@ -53,10 +53,10 @@ class Bottomground : SKSpriteNode {
     
     func begin() {
         // Moving the ground at speed
-        let moveGroundSprite = SKAction.moveByX(-bottomGroundTexture.size().width, y: 0, duration: NSTimeInterval(0.00624 * bottomGroundTexture.size().width))
-        let resetGroundSprite = SKAction.moveByX(bottomGroundTexture.size().width, y: 0, duration: 0.0)
+        let moveGroundSprite = SKAction.moveBy(x: -bottomGroundTexture.size().width, y: 0, duration: TimeInterval(0.00624 * bottomGroundTexture.size().width))
+        let resetGroundSprite = SKAction.moveBy(x: bottomGroundTexture.size().width, y: 0, duration: 0.0)
         let moveSequence = SKAction.sequence([moveGroundSprite, resetGroundSprite])
-        runAction(SKAction.repeatActionForever(moveSequence))
+        run(SKAction.repeatForever(moveSequence))
     }
     
     func stop() {

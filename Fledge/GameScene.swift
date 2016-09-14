@@ -12,9 +12,9 @@ import AVFoundation
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Screen size detection
-    let screenSize: CGRect = UIScreen.mainScreen().bounds
+    let screenSize: CGRect = UIScreen.main.bounds
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         stuffInTheScene = false
         isAlive = true
         platformLocation = 2 // Force variable gap as first obstacle
@@ -23,22 +23,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         backgroundColor = skyColor
         
         // Physics
-        self.physicsWorld.gravity = CGVectorMake(0.0, -1.5)
+        self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -1.5)
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.speed = 1
         
         // Swipe up and down gesture recognizers
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(GameScene.respondToSwipeGesture(_:)))
-        swipeUp.direction = UISwipeGestureRecognizerDirection.Up
+        swipeUp.direction = UISwipeGestureRecognizerDirection.up
         self.view!.addGestureRecognizer(swipeUp)
         
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(GameScene.respondToSwipeGesture(_:)))
-        swipeDown.direction = UISwipeGestureRecognizerDirection.Down
+        swipeDown.direction = UISwipeGestureRecognizerDirection.down
         self.view!.addGestureRecognizer(swipeDown)
         
         // BottomPlatform properties
-        bottomPlatform.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(self.frame.size.width, BottomPlatformTexture.size().height))
-        bottomPlatform.physicsBody?.dynamic = false
+        bottomPlatform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.size.width, height: BottomPlatformTexture.size().height))
+        bottomPlatform.physicsBody?.isDynamic = false
         bottomPlatform.physicsBody?.categoryBitMask = platformCategory
         bottomPlatform.physicsBody?.collisionBitMask = playerCategory
         bottomPlatform.physicsBody?.contactTestBitMask = playerCategory
@@ -46,8 +46,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bottomPlatform.physicsBody?.affectedByGravity = false
         
         // TopPlatform properties
-        topPlatform.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(self.frame.size.width, TopPlatformTexture.size().height))
-        topPlatform.physicsBody?.dynamic = false
+        topPlatform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.size.width, height: TopPlatformTexture.size().height))
+        topPlatform.physicsBody?.isDynamic = false
         topPlatform.physicsBody?.categoryBitMask = platformCategory
         topPlatform.physicsBody?.collisionBitMask = playerCategory
         topPlatform.physicsBody?.contactTestBitMask = playerCategory
@@ -55,10 +55,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         topPlatform.physicsBody?.affectedByGravity = false
         
         // Call an instance of Player and setup Player properties
-        player = Player(size: CGSizeMake(PlayerTexture1.size().width, PlayerTexture1.size().height))
-        player.position = CGPointMake(self.frame.size.width / 2.8, self.frame.size.height * 0.5 - 50)
+        player = Player(size: CGSize(width: PlayerTexture1.size().width, height: PlayerTexture1.size().height))
+        player.position = CGPoint(x: self.frame.size.width / 2.8, y: self.frame.size.height * 0.5 - 50)
         player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.height / 2)
-        player.physicsBody?.dynamic = true
+        player.physicsBody?.isDynamic = true
         player.physicsBody?.categoryBitMask = playerCategory
         player.physicsBody?.collisionBitMask = platformCategory
         player.physicsBody?.allowsRotation = false
@@ -73,21 +73,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch screenHeight { // For moving top sprites
             case 569...667: // Setup moving top background sprites for iphone 6 size
-                movingTopBackground = Background(size: CGSizeMake(backgroundTextureIphone6.size().width, backgroundTextureIphone6.size().height))
-                movingTopMountains = Mountains(size: CGSizeMake(topMountainsTextureIphone6.size().width, topMountainsTextureIphone6.size().height))
-                movingTopMountainsBackground = MountainsBackground(size: CGSizeMake(topMountainsBackgroundTextureIphone6.size().width, topMountainsBackgroundTextureIphone6.size().height))
+                movingTopBackground = Background(size: CGSize(width: backgroundTextureIphone6.size().width, height: backgroundTextureIphone6.size().height))
+                movingTopMountains = Mountains(size: CGSize(width: topMountainsTextureIphone6.size().width, height: topMountainsTextureIphone6.size().height))
+                movingTopMountainsBackground = MountainsBackground(size: CGSize(width: topMountainsBackgroundTextureIphone6.size().width, height: topMountainsBackgroundTextureIphone6.size().height))
             default:
                 // Otherwise use defaults
-                movingTopBackground = Background(size: CGSizeMake(backgroundTexture.size().width, backgroundTexture.size().height))
-                movingTopMountains = Mountains(size: CGSizeMake(topMountainsTexture.size().width, topMountainsTexture.size().height))
-                movingTopMountainsBackground = MountainsBackground(size: CGSizeMake(topMountainsBackgroundTexture.size().width, topMountainsBackgroundTexture.size().height))
+                movingTopBackground = Background(size: CGSize(width: backgroundTexture.size().width, height: backgroundTexture.size().height))
+                movingTopMountains = Mountains(size: CGSize(width: topMountainsTexture.size().width, height: topMountainsTexture.size().height))
+                movingTopMountainsBackground = MountainsBackground(size: CGSize(width: topMountainsBackgroundTexture.size().width, height: topMountainsBackgroundTexture.size().height))
         }
         
-        movingBottomPlatform = BottomPlatform(size: CGSizeMake(BottomPlatformTexture.size().width, BottomPlatformTexture.size().height))
-        movingTopPlatform = TopPlatform(size: CGSizeMake(TopPlatformTexture.size().width, TopPlatformTexture.size().height))
+        movingBottomPlatform = BottomPlatform(size: CGSize(width: BottomPlatformTexture.size().width, height: BottomPlatformTexture.size().height))
+        movingTopPlatform = TopPlatform(size: CGSize(width: TopPlatformTexture.size().width, height: TopPlatformTexture.size().height))
 
         if screenHeight > 480 { // No bottom ground texture for iphone 4 - doesnt fit in screen
-            movingBottomGround = Bottomground(size: CGSizeMake(bottomGroundTexture.size().width, bottomGroundTexture.size().height))
+            movingBottomGround = Bottomground(size: CGSize(width: bottomGroundTexture.size().width, height: bottomGroundTexture.size().height))
             moving.addChild(movingBottomGround)
         }
         
@@ -103,11 +103,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         tunnel.anchorPoint = CGPoint(x: 0.5, y: 0)
         
         // highscore & Scorelabel setup
-        highscore = userSettingsDefaults.integerForKey("Highscore")
+        highscore = userSettingsDefaults.integer(forKey: "Highscore")
         
         score = 0
         scoreLabel.fontName = "Avenir Next"
-        scoreLabel.fontColor = UIColor.whiteColor()
+        scoreLabel.fontColor = UIColor.white
         scoreLabel.text = "\(score)"
         scoreLabel.fontSize = 45
         scoreLabel.zPosition = 4
@@ -116,29 +116,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         switch screenHeight {
         case 0...480:
             // Iphone 4
-            topPlatform.position = CGPointMake(self.frame.width / 2, 358)
-            bottomPlatform.position = CGPointMake(self.frame.width / 2, movingBottomPlatform.size.height / 2)
-            scoreLabel.position = CGPointMake(30, 310)
+            topPlatform.position = CGPoint(x: self.frame.width / 2, y: 358)
+            bottomPlatform.position = CGPoint(x: self.frame.width / 2, y: movingBottomPlatform.size.height / 2)
+            scoreLabel.position = CGPoint(x: 30, y: 310)
             scoreLabel.fontSize = 35 // Smaller font for iphone 4
-            tunnel.position = CGPointMake(self.frame.size.width / 2, movingBottomPlatform.size.height)
+            tunnel.position = CGPoint(x: self.frame.size.width / 2, y: movingBottomPlatform.size.height)
         case 481...568:
             // Iphone 5
-            topPlatform.position = CGPointMake(self.frame.width / 2, 438)
-            bottomPlatform.position = CGPointMake(self.frame.width / 2, 80)
-            scoreLabel.position = CGPointMake(self.frame.size.width / 2, 20)
-            tunnel.position = CGPointMake(self.frame.size.width / 2, 80)
+            topPlatform.position = CGPoint(x: self.frame.width / 2, y: 438)
+            bottomPlatform.position = CGPoint(x: self.frame.width / 2, y: 80)
+            scoreLabel.position = CGPoint(x: self.frame.size.width / 2, y: 20)
+            tunnel.position = CGPoint(x: self.frame.size.width / 2, y: 80)
         case 569...667:
             // Iphone 6
-            topPlatform.position = CGPointMake(self.frame.width / 2, 468)
-            bottomPlatform.position = CGPointMake(self.frame.width / 2, 110)
-            scoreLabel.position = CGPointMake(self.frame.size.width / 2, 55)
-            tunnel.position = CGPointMake(self.frame.size.width / 2, 110)
+            topPlatform.position = CGPoint(x: self.frame.width / 2, y: 468)
+            bottomPlatform.position = CGPoint(x: self.frame.width / 2, y: 110)
+            scoreLabel.position = CGPoint(x: self.frame.size.width / 2, y: 55)
+            tunnel.position = CGPoint(x: self.frame.size.width / 2, y: 110)
         default:
             // Iphone 6 plus
-            topPlatform.position = CGPointMake(self.frame.width / 2, 508)
-            bottomPlatform.position = CGPointMake(self.frame.width / 2, 150)
-            scoreLabel.position = CGPointMake(self.frame.size.width / 2, 75)
-            tunnel.position = CGPointMake(self.frame.size.width / 2, 150)
+            topPlatform.position = CGPoint(x: self.frame.width / 2, y: 508)
+            bottomPlatform.position = CGPoint(x: self.frame.width / 2, y: 150)
+            scoreLabel.position = CGPoint(x: self.frame.size.width / 2, y: 75)
+            tunnel.position = CGPoint(x: self.frame.size.width / 2, y: 150)
         }
         
         moving.addChild(bottomPlatform) //Device height checked, add everything to scene
@@ -160,12 +160,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Setup sound effects
     func beginPlayingBackgroundMusic() {
         // Checking whether audio is muted or not
-        muted = userSettingsDefaults.boolForKey("Muted")
+        muted = userSettingsDefaults.bool(forKey: "Muted")
         
         if backgroundMusic != nil {
-            let audioURL = NSURL.fileURLWithPath(backgroundMusic!)
+            let audioURL = URL(fileURLWithPath: backgroundMusic!)
             do {
-                backgroundMusicPlayer = try AVAudioPlayer(contentsOfURL: audioURL)
+                backgroundMusicPlayer = try AVAudioPlayer(contentsOf: audioURL)
                 backgroundMusicPlayer.numberOfLoops = -1
                 backgroundMusicPlayer.prepareToPlay()
             } catch {
@@ -175,9 +175,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if hitSound != nil {
-            let audioURL = NSURL.fileURLWithPath(hitSound!)
+            let audioURL = URL(fileURLWithPath: hitSound!)
             do {
-                hitSoundPlayer = try AVAudioPlayer(contentsOfURL: audioURL)
+                hitSoundPlayer = try AVAudioPlayer(contentsOf: audioURL)
                 hitSoundPlayer.prepareToPlay()
             } catch {
                 // combine catch
@@ -186,9 +186,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if coinSound != nil {
-            let audioURL = NSURL.fileURLWithPath(coinSound!)
+            let audioURL = URL(fileURLWithPath: coinSound!)
             do {
-                coinSoundPlayer = try AVAudioPlayer(contentsOfURL: audioURL)
+                coinSoundPlayer = try AVAudioPlayer(contentsOf: audioURL)
                 coinSoundPlayer.prepareToPlay()
             } catch {
                 // combine catch
@@ -204,23 +204,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Call splawnPlatforms function nth second
     func startSpawningPlatforms() {
         // platformSpawnTimer = NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(GameScene.spawnPlatforms), userInfo: nil, repeats: true)
-        let actionwait = SKAction.waitForDuration(1.55)
-        let actionrun = SKAction.runBlock({
+        let actionwait = SKAction.wait(forDuration: 1.55)
+        let actionrun = SKAction.run({
             self.spawnPlatforms()
         })
         
-        let coinWait = SKAction.waitForDuration(5.425) // 5.425 0.2
-        let coinRun = SKAction.runBlock({
+        let coinWait = SKAction.wait(forDuration: 5.425) // 5.425 0.2
+        let coinRun = SKAction.run({
             self.spawnCoins()
         })
         
-        self.runAction(SKAction.repeatActionForever(SKAction.sequence([actionwait,actionrun])), withKey: "platformSpawn")
-        self.runAction(SKAction.repeatActionForever(SKAction.sequence([coinWait,coinRun])), withKey: "coinSpawn")
+        self.run(SKAction.repeatForever(SKAction.sequence([actionwait,actionrun])), withKey: "platformSpawn")
+        self.run(SKAction.repeatForever(SKAction.sequence([coinWait,coinRun])), withKey: "coinSpawn")
         
     }
     
     //Determine platform spawn location
-    func DeterminePlatformLocation(previousPlatformLocation: Int) -> Int {
+    func DeterminePlatformLocation(_ previousPlatformLocation: Int) -> Int {
         //Check previous platform location
         while spawnLocation == previousPlatformLocation { // Force different spawn every time
             spawnLocation = Int(arc4random_uniform(3))
@@ -248,8 +248,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if newLocation == 1 || newLocation == 2 { // If more than 1 platform, setup platform2 properties
             platform2.zPosition = 2
-            platform2.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(platform.size.width, platform.size.height))
-            platform2.physicsBody?.dynamic = false
+            platform2.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: platform.size.width, height: platform.size.height))
+            platform2.physicsBody?.isDynamic = false
             platform2.physicsBody?.categoryBitMask = platformCategory
             platform2.physicsBody?.collisionBitMask = playerCategory
             platform2.physicsBody?.contactTestBitMask = playerCategory
@@ -276,70 +276,70 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 switch screenWidth {
                 case 0...480:
                     // Iphone 4
-                    platform.position = CGPointMake(frameWidth + platform.size.width, -23 + baseAddedHeightSingleSpawn)
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: -23 + baseAddedHeightSingleSpawn)
                 case 481...568:
                     // Iphone 5
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 57 + baseAddedHeightSingleSpawn)
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 57 + baseAddedHeightSingleSpawn)
                 case 569...667:
                     // Iphone 6
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 87 + baseAddedHeightSingleSpawn)
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 87 + baseAddedHeightSingleSpawn)
                 default:
                     // Iphone 6 plus
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 128 + baseAddedHeightSingleSpawn)
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 128 + baseAddedHeightSingleSpawn)
                 }
             } else if platformUpOrDown == 1 { // Single top spawn
                 
                 switch screenWidth {
                 case 0...480:
                     // Iphone 4
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 390 - baseAddedHeightSingleSpawn)
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 390 - baseAddedHeightSingleSpawn)
                 case 481...568:
                     // Iphone 5
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 461 - baseAddedHeightSingleSpawn)
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 461 - baseAddedHeightSingleSpawn)
                 case 569...667:
                     // Iphone 6
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 491 - baseAddedHeightSingleSpawn)
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 491 - baseAddedHeightSingleSpawn)
                 default:
                     // Iphone 6 plus
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 530 - baseAddedHeightSingleSpawn)
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 530 - baseAddedHeightSingleSpawn)
                 }
             }
         case 1: // Setup Double platform spawn (Up and down)
             switch screenWidth {
             case 0...480: // Iphone 4
                 if coinFlip == 0 { // Centered gap  +15 to up/down
-                    platform2.position = CGPointMake(frameWidth + platform.size.width, -23 + randomAddedHeightDualSpawnPlatforms + 15)  //-15  -108 Top of bottomplatform
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 390 + randomAddedHeightDualSpawnPlatforms) // 475 Bottom of topplatform 94 difference
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: -23 + randomAddedHeightDualSpawnPlatforms + 15)  //-15  -108 Top of bottomplatform
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 390 + randomAddedHeightDualSpawnPlatforms) // 475 Bottom of topplatform 94 difference
                 } else { // other gap
-                    platform2.position = CGPointMake(frameWidth + platform.size.width, -23 - randomAddedHeightDualSpawnPlatforms)  //-15  -108 Top of bottomplatform
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 390 - randomAddedHeightDualSpawnPlatforms - 15) // 475 Bottom of topplatform 94 difference
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: -23 - randomAddedHeightDualSpawnPlatforms)  //-15  -108 Top of bottomplatform
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 390 - randomAddedHeightDualSpawnPlatforms - 15) // 475 Bottom of topplatform 94 difference
                 }
                 moving.addChild(platform2)
             case 481...568: // Iphone 5
                 if coinFlip == 0 { // Centered gap  +15 to up/down
-                    platform2.position = CGPointMake(frameWidth + platform.size.width, 57 + randomAddedHeightDualSpawnPlatforms + 15) // -37 top of bottomplatform
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 461 + randomAddedHeightDualSpawnPlatforms) // 555 bottom of topplatform
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 57 + randomAddedHeightDualSpawnPlatforms + 15) // -37 top of bottomplatform
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 461 + randomAddedHeightDualSpawnPlatforms) // 555 bottom of topplatform
                 } else { // other gap
-                    platform2.position = CGPointMake(frameWidth + platform.size.width, 57 - randomAddedHeightDualSpawnPlatforms)
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 461 - randomAddedHeightDualSpawnPlatforms - 15)
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 57 - randomAddedHeightDualSpawnPlatforms)
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 461 - randomAddedHeightDualSpawnPlatforms - 15)
                 }
                 moving.addChild(platform2)
             case 569...667: // Iphone 6
                 if coinFlip == 0 { // Centered gap  +15 to up/down
-                    platform2.position = CGPointMake(frameWidth + platform.size.width, 87 + randomAddedHeightDualSpawnPlatforms + 15) // -7 Top of bottomplatform
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 491 + randomAddedHeightDualSpawnPlatforms) // 585 Bottom of topplatform
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 87 + randomAddedHeightDualSpawnPlatforms + 15) // -7 Top of bottomplatform
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 491 + randomAddedHeightDualSpawnPlatforms) // 585 Bottom of topplatform
                 } else { // other gap
-                    platform2.position = CGPointMake(frameWidth + platform.size.width, 87 - randomAddedHeightDualSpawnPlatforms) // -7 Top of bottomplatform
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 491 - randomAddedHeightDualSpawnPlatforms - 15) // 585 Bottom of topplatform
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 87 - randomAddedHeightDualSpawnPlatforms) // -7 Top of bottomplatform
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 491 - randomAddedHeightDualSpawnPlatforms - 15) // 585 Bottom of topplatform
                 }
                 moving.addChild(platform2)
             default: // Iphone 6 plus
                 if coinFlip == 0 { // Centered gap  +15 to up/down
-                    platform2.position = CGPointMake(frameWidth + platform.size.width, 128 + randomAddedHeightDualSpawnPlatforms + 15) // 34 Top of bottomplatform
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 530 + randomAddedHeightDualSpawnPlatforms) // 624 bottom of topplatform
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 128 + randomAddedHeightDualSpawnPlatforms + 15) // 34 Top of bottomplatform
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 530 + randomAddedHeightDualSpawnPlatforms) // 624 bottom of topplatform
                 } else { // other gap
-                    platform2.position = CGPointMake(frameWidth + platform.size.width, 128 - randomAddedHeightDualSpawnPlatforms) // 34 Top of bottomplatform
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 530 - randomAddedHeightDualSpawnPlatforms - 15) // 624 bottom of topplatform
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 128 - randomAddedHeightDualSpawnPlatforms) // 34 Top of bottomplatform
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 530 - randomAddedHeightDualSpawnPlatforms - 15) // 624 bottom of topplatform
                 }
                 moving.addChild(platform2)
             }
@@ -348,38 +348,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             switch screenWidth {
             case 0...480: // Iphone 4
                 if coinFlip == 0 { // Centered gap  +15 to up/down
-                    platform2.position = CGPointMake(frameWidth + platform.size.width, 33 + randomAddedHeightDualSpawnPlatforms)  //-15  -108 Top of bottomplatform
-                    platform.position = CGPointMake(frameWidth + platform.size.width + 85, 340 + randomAddedHeightDualSpawnPlatforms) // 475 Bottom of topplatform 94 difference
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 33 + randomAddedHeightDualSpawnPlatforms)  //-15  -108 Top of bottomplatform
+                    platform.position = CGPoint(x: frameWidth + platform.size.width + 85, y: 340 + randomAddedHeightDualSpawnPlatforms) // 475 Bottom of topplatform 94 difference
                 } else { // other gap
-                    platform2.position = CGPointMake(frameWidth + platform.size.width + 85, 33 - randomAddedHeightDualSpawnPlatforms)  //-15  -108 Top of bottomplatform
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 340 - randomAddedHeightDualSpawnPlatforms) // 475 Bottom of topplatform 94 difference
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width + 85, y: 33 - randomAddedHeightDualSpawnPlatforms)  //-15  -108 Top of bottomplatform
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 340 - randomAddedHeightDualSpawnPlatforms) // 475 Bottom of topplatform 94 difference
                 }
                 moving.addChild(platform2)
             case 481...568: // Iphone 5
                 if coinFlip == 0 { // Centered gap  +15 to up/down 57
-                    platform2.position = CGPointMake(frameWidth + platform.size.width, 107 + randomAddedHeightDualSpawnPlatforms) // -37 top of bottomplatform
-                    platform.position = CGPointMake(frameWidth + platform.size.width + 85, 411 + randomAddedHeightDualSpawnPlatforms) // 555 bottom of topplatform
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 107 + randomAddedHeightDualSpawnPlatforms) // -37 top of bottomplatform
+                    platform.position = CGPoint(x: frameWidth + platform.size.width + 85, y: 411 + randomAddedHeightDualSpawnPlatforms) // 555 bottom of topplatform
                 } else { // other gap
-                    platform2.position = CGPointMake(frameWidth + platform.size.width + 85, 107 - randomAddedHeightDualSpawnPlatforms)
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 411 - randomAddedHeightDualSpawnPlatforms)
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width + 85, y: 107 - randomAddedHeightDualSpawnPlatforms)
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 411 - randomAddedHeightDualSpawnPlatforms)
                 }
                 moving.addChild(platform2)
             case 569...667: // Iphone 6
                 if coinFlip == 0 { // Centered gap  +15 to up/down
-                    platform2.position = CGPointMake(frameWidth + platform.size.width, 137 + randomAddedHeightDualSpawnPlatforms) // -7 Top of bottomplatform
-                    platform.position = CGPointMake(frameWidth + platform.size.width + 85, 441 + randomAddedHeightDualSpawnPlatforms) // 585 Bottom of topplatform
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 137 + randomAddedHeightDualSpawnPlatforms) // -7 Top of bottomplatform
+                    platform.position = CGPoint(x: frameWidth + platform.size.width + 85, y: 441 + randomAddedHeightDualSpawnPlatforms) // 585 Bottom of topplatform
                 } else { // other gap
-                    platform2.position = CGPointMake(frameWidth + platform.size.width + 85, 137 - randomAddedHeightDualSpawnPlatforms) // -7 Top of bottomplatform
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 441 - randomAddedHeightDualSpawnPlatforms) // 585 Bottom of topplatform
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width + 85, y: 137 - randomAddedHeightDualSpawnPlatforms) // -7 Top of bottomplatform
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 441 - randomAddedHeightDualSpawnPlatforms) // 585 Bottom of topplatform
                 }
                 moving.addChild(platform2)
             default: // Iphone 6 plus
                 if coinFlip == 0 { // Centered gap  +15 to up/down
-                    platform2.position = CGPointMake(frameWidth + platform.size.width, 178 + randomAddedHeightDualSpawnPlatforms) // 34 Top of bottomplatform
-                    platform.position = CGPointMake(frameWidth + platform.size.width + 85, 480 + randomAddedHeightDualSpawnPlatforms) // 624 bottom of topplatform
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 178 + randomAddedHeightDualSpawnPlatforms) // 34 Top of bottomplatform
+                    platform.position = CGPoint(x: frameWidth + platform.size.width + 85, y: 480 + randomAddedHeightDualSpawnPlatforms) // 624 bottom of topplatform
                 } else { // other gap
-                    platform2.position = CGPointMake(frameWidth + platform.size.width + 85, 178 - randomAddedHeightDualSpawnPlatforms) // 34 Top of bottomplatform
-                    platform.position = CGPointMake(frameWidth + platform.size.width, 480 - randomAddedHeightDualSpawnPlatforms) // 624 bottom of topplatform
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width + 85, y: 178 - randomAddedHeightDualSpawnPlatforms) // 34 Top of bottomplatform
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 480 - randomAddedHeightDualSpawnPlatforms) // 624 bottom of topplatform
                 }
                 moving.addChild(platform2)
             }
@@ -387,16 +387,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case 3: // Spawn a single platform that moves up/down
             switch screenWidth {
             case 0...480: // Iphone 4
-                platform.position = CGPointMake(frameWidth + platform.size.width, 87 + baseAddedHeightSingleSpawn)
+                platform.position = CGPoint(x: frameWidth + platform.size.width, y: 87 + baseAddedHeightSingleSpawn)
                 moving.addChild(platform2)
             case 481...568: // Iphone 5
-                platform.position = CGPointMake(frameWidth + platform.size.width, 87 + baseAddedHeightSingleSpawn)
+                platform.position = CGPoint(x: frameWidth + platform.size.width, y: 87 + baseAddedHeightSingleSpawn)
                 moving.addChild(platform2)
             case 569...667: // Iphone 6
-                platform.position = CGPointMake(frameWidth + platform.size.width, 87 + baseAddedHeightSingleSpawn)
+                platform.position = CGPoint(x: frameWidth + platform.size.width, y: 87 + baseAddedHeightSingleSpawn)
                 moving.addChild(platform2)
             default: // Iphone 6 plus
-                platform.position = CGPointMake(frameWidth + platform.size.width, 87 + baseAddedHeightSingleSpawn)
+                platform.position = CGPoint(x: frameWidth + platform.size.width, y: 87 + baseAddedHeightSingleSpawn)
                 moving.addChild(platform2)
             }
         default:
@@ -405,8 +405,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Setup platform and add to scene
         platform.zPosition = 2
-        platform.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(platform.size.width, platform.size.height))
-        platform.physicsBody?.dynamic = false
+        platform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: platform.size.width, height: platform.size.height))
+        platform.physicsBody?.isDynamic = false
         platform.physicsBody?.categoryBitMask = platformCategory
         platform.physicsBody?.collisionBitMask = playerCategory
         platform.physicsBody?.contactTestBitMask = playerCategory
@@ -417,9 +417,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         moving.addChild(platform)
         
         // Setup scoreNode for scorekeeping
-        scoreNode.position = CGPointMake(self.frame.size.width + (platform.size.width * 6), CGRectGetMidY(self.frame))
-        scoreNode.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(1, self.frame.height))
-        scoreNode.physicsBody?.dynamic = false
+        scoreNode.position = CGPoint(x: self.frame.size.width + (platform.size.width * 6), y: self.frame.midY)
+        scoreNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: self.frame.height))
+        scoreNode.physicsBody?.isDynamic = false
         scoreNode.physicsBody?.categoryBitMask = scoreCategory
         scoreNode.physicsBody?.contactTestBitMask = playerCategory
         scoreNode.physicsBody?.affectedByGravity = false
@@ -428,21 +428,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         moving.addChild(scoreNode)
         
         // Platform moving time
-        let moveDuration = NSTimeInterval(frameWidth * 0.0070)
+        let moveDuration = TimeInterval(frameWidth * 0.0070)
         
         // Move platform, platform2, scoreNode and remove from scene
-        let movePlatform = SKAction.moveByX(-frameWidth - platformSmall1.size().width * 2 - 85, y: 0, duration: moveDuration )
+        let movePlatform = SKAction.moveBy(x: -frameWidth - platformSmall1.size().width * 2 - 85, y: 0, duration: moveDuration )
         let removePlatform = SKAction.removeFromParent()
         let movePlatformAndRemove = SKAction.sequence([movePlatform, removePlatform])
         
-        platform.runAction(movePlatformAndRemove)
+        platform.run(movePlatformAndRemove)
         delay(0.1){
             platformSpawned = false
         }
         if newLocation == 1 || newLocation == 2 { // Only apply action to platform2 if being used
-            platform2.runAction(movePlatformAndRemove)
+            platform2.run(movePlatformAndRemove)
         }
-        scoreNode.runAction(movePlatformAndRemove)
+        scoreNode.run(movePlatformAndRemove)
     }
     
     func setSpawnedToFalse() {
@@ -458,8 +458,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             coin = SKSpriteNode(texture: coinTexture)
             coin.texture = SKTexture(imageNamed: "Coin")
             coin.zPosition = 2
-            coin.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(coin.size.width, coin.size.height))
-            coin.physicsBody?.dynamic = false
+            coin.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: coin.size.width, height: coin.size.height))
+            coin.physicsBody?.isDynamic = false
             coin.physicsBody?.categoryBitMask = coinCategory
             coin.physicsBody?.collisionBitMask = playerCategory
             coin.physicsBody?.contactTestBitMask = playerCategory
@@ -482,61 +482,61 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     switch screenWidth {
                     case 0...480:
                         // iPhone 4
-                        coin.position = CGPointMake(self.frame.size.width + coin.frame.width, self.frame.size.height * 0.18)
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.18)
                     case 481...568:
                         // iPhone 5
-                        coin.position = CGPointMake(self.frame.size.width + coin.frame.width, self.frame.size.height * 0.27)
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.27)
                     case 569...667:
                         // iPhone 6
-                        coin.position = CGPointMake(self.frame.size.width + coin.frame.width, self.frame.size.height * 0.27)
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.27)
                     default:
                         // iPhone 6 plus
-                        coin.position = CGPointMake(self.frame.size.width + coin.frame.width, self.frame.size.height * 0.29)
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.29)
                     }
                 case 1:
                     switch screenWidth {
                     case 0...480:
                         // iPhone 4
-                        coin.position = CGPointMake(self.frame.size.width + coin.frame.width, self.frame.size.height * 0.30)
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.30)
                     case 481...568:
                         // iPhone 5
-                        coin.position = CGPointMake(self.frame.size.width + coin.frame.width, self.frame.size.height * 0.35)
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.35)
                     case 569...667:
                         // iPhone 6
-                        coin.position = CGPointMake(self.frame.size.width + coin.frame.width, self.frame.size.height * 0.37)
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.37)
                     default:
                         // iPhone 6 plus
-                        coin.position = CGPointMake(self.frame.size.width + coin.frame.width, self.frame.size.height * 0.36)
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.36)
                     }
                 case 2:
                     switch screenWidth {
                     case 0...480:
                         // iPhone 4
-                        coin.position = CGPointMake(self.frame.size.width + coin.frame.width, self.frame.size.height * 0.50)
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.50)
                     case 481...568:
                         // iPhone 5
-                        coin.position = CGPointMake(self.frame.size.width + coin.frame.width, self.frame.size.height * 0.53)
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.53)
                     case 569...667:
                         // iPhone 6
-                        coin.position = CGPointMake(self.frame.size.width + coin.frame.width, self.frame.size.height * 0.50)
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.50)
                     default:
                         // iPhone 6 plus
-                        coin.position = CGPointMake(self.frame.size.width + coin.frame.width, self.frame.size.height * 0.54)
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.54)
                     }
                 case 3:
                     switch screenWidth {
                     case 0...480:
                         // iPhone 4
-                        coin.position = CGPointMake(self.frame.size.width + coin.frame.width, self.frame.size.height * 0.61)
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.61)
                     case 481...568:
                         // iPhone 5
-                        coin.position = CGPointMake(self.frame.size.width + coin.frame.width, self.frame.size.height * 0.64)
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.64)
                     case 569...667:
                         // iPhone 6
-                        coin.position = CGPointMake(self.frame.size.width + coin.frame.width, self.frame.size.height * 0.59)
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.59)
                     default:
                         // iPhone 6 plus
-                        coin.position = CGPointMake(self.frame.size.width + coin.frame.width, self.frame.size.height * 0.61)
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.61)
                     }
                 default:
                     break
@@ -547,7 +547,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             } */
             
             if (platformSpawned == true) {
-                coin.position =  CGPointMake(self.frame.size.width + coin.frame.width, self.frame.size.height * 0.99)
+                coin.position =  CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.99)
                 coinMovement = 0
             }
             
@@ -555,32 +555,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             delayCoinSpawn()
             // Platform moving time
             // let moveDuration = NSTimeInterval(self.frame.size.width * 0.0055) // default 0.0055
-            let moveDuration = NSTimeInterval(self.frame.size.width * 0.0070)
+            let moveDuration = TimeInterval(self.frame.size.width * 0.0070)
             
             // Move platform, platform2, scoreNode and remove from scene
-            let movePlatform = SKAction.moveByX(-self.frame.size.width - platformSmall1.size().width * 2 - 85, y: 0, duration: moveDuration )
+            let movePlatform = SKAction.moveBy(x: -self.frame.size.width - platformSmall1.size().width * 2 - 85, y: 0, duration: moveDuration )
             let removePlatform = SKAction.removeFromParent()
             let movePlatformAndRemove = SKAction.sequence([movePlatform, removePlatform])
-            let moveCoinUp = SKAction.moveByX(0, y: 350, duration: 5.0)
-            let moveCoinDown = SKAction.moveByX(0, y: -350, duration: 5.0)
+            let moveCoinUp = SKAction.moveBy(x: 0, y: 350, duration: 5.0)
+            let moveCoinDown = SKAction.moveBy(x: 0, y: -350, duration: 5.0)
             switch coinMovement {
             case 0:
                 break
             case 1:
                 if (coinSpawnLocation == 0) {
-                    coin.runAction(moveCoinUp)
+                    coin.run(moveCoinUp)
                 } else if (coinSpawnLocation == 1) {
-                    coin.runAction(moveCoinUp)
+                    coin.run(moveCoinUp)
                 } else if (coinSpawnLocation == 3) {
-                    coin.runAction(moveCoinDown)
+                    coin.run(moveCoinDown)
                 } else {
-                    coin.runAction(moveCoinDown)
+                    coin.run(moveCoinDown)
                 }
             default:
                 break
             }
             
-            coin.runAction(movePlatformAndRemove)
+            coin.run(movePlatformAndRemove)
         }
  
     }
@@ -592,7 +592,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func didBeginContact(contact: SKPhysicsContact) {
+    func didBegin(_ contact: SKPhysicsContact) {
         if isAlive { // Check if player is alive, otherwise do nothing
             if (contact.bodyA.categoryBitMask == scoreCategory || contact.bodyB.categoryBitMask == scoreCategory){
                 score += 1 // Increment score && update scoreLabel text
@@ -602,17 +602,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 score += 5 // Increments score by 5 and makes the coin disappear
                 coinSoundPlayer.play()
                 // Animates the coin disappearing and  delays adding the coin back to the moving node, so the same coin you collected won't show up again
-                coin.runAction(fadeOut, completion: addCoinToParent)
+                coin.run(fadeOut, completion: addCoinToParent)
                 scoreLabel.text = "\(score)" // Update scoreLabels text
             }   else if (contact.bodyA.categoryBitMask == platformCategory || contact.bodyB.categoryBitMask == platformCategory) {
                 // Player has died, stop the game && stop spawning platforms
-                self.removeActionForKey("platformSpawn")
-                self.removeActionForKey("coinSpawn")
+                self.removeAction(forKey: "platformSpawn")
+                self.removeAction(forKey: "coinSpawn")
                 isAlive = false
                 moving.speed = 0
                 scoreLabel.removeFromParent()
                 
-                if (backgroundMusicPlayer.playing) {
+                if (backgroundMusicPlayer.isPlaying) {
                     backgroundMusicPlayer.stop()
                 }
                 if (muted == false) {
@@ -620,13 +620,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 coins.removeFromParent()
                 // Jump back a bit after colliding
-                player.physicsBody?.applyImpulse(CGVectorMake(-15, 30))
-                self.physicsWorld.gravity = CGVectorMake(0.0, -6.5)
+                player.physicsBody?.applyImpulse(CGVector(dx: -15, dy: 30))
+                self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -6.5)
                 
                 // If current score is higher than highscore stored in device memory then set highscore as current score
                 if (score > highscore) {
                     highscore = score
-                    userSettingsDefaults.setInteger(highscore, forKey: "Highscore")
+                    userSettingsDefaults.set(highscore, forKey: "Highscore")
                     newHighscore = true
                 }
                 
@@ -638,35 +638,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     gameOverLabel.font = UIFont(name: "Avenir Next", size: 40)
                 }
                 gameOverLabel.numberOfLines = 0
-                gameOverLabel.layer.anchorPoint = CGPointMake(1.0, 1.0)
-                gameOverLabel.textColor = UIColor.whiteColor()
+                gameOverLabel.layer.anchorPoint = CGPoint(x: 1.0, y: 1.0)
+                gameOverLabel.textColor = UIColor.white
                 gameOverLabel.layer.zPosition = 2
-                gameOverLabel.textAlignment = NSTextAlignment.Center
+                gameOverLabel.textAlignment = NSTextAlignment.center
                 
                 // Create a play again button called restartGameButton
-                restartGameButton = UIButton(type: UIButtonType.Custom)
-                restartGameButton.setImage(restartGameButtonImage, forState: .Normal)
-                restartGameButton.layer.anchorPoint = CGPointMake(0.5, 0.5)
+                restartGameButton = UIButton(type: UIButtonType.custom)
+                restartGameButton.setImage(restartGameButtonImage, for: UIControlState())
+                restartGameButton.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
                 restartGameButton.layer.zPosition = 2
-                restartGameButton.addTarget(self, action: #selector(GameScene.restartGameButtonAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+                restartGameButton.addTarget(self, action: #selector(GameScene.restartGameButtonAction(_:)), for: UIControlEvents.touchUpInside)
                 
                 // Create a backToMainMenuButton to go back to menu
-                backToMainMenuButton = UIButton(type: UIButtonType.Custom)
-                backToMainMenuButton.setImage(restartGameButtonImage, forState: .Normal)
-                backToMainMenuButton.layer.anchorPoint = CGPointMake(0.5, 0.5)
+                backToMainMenuButton = UIButton(type: UIButtonType.custom)
+                backToMainMenuButton.setImage(restartGameButtonImage, for: UIControlState())
+                backToMainMenuButton.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
                 backToMainMenuButton.layer.zPosition = 2
-                backToMainMenuButton.addTarget(self, action: #selector(GameScene.backToMainMenuButtonAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+                backToMainMenuButton.addTarget(self, action: #selector(GameScene.backToMainMenuButtonAction(_:)), for: UIControlEvents.touchUpInside)
                 
                 // muteButton Setup
-                muteButton = UIButton(type: UIButtonType.Custom) as UIButton!
+                muteButton = UIButton(type: UIButtonType.custom) as UIButton!
                 if (muted == false) {
-                    muteButton.setImage(unmutedImage, forState: .Normal)
+                    muteButton.setImage(unmutedImage, for: UIControlState())
                 } else {
-                    muteButton.setImage(mutedImage, forState: .Normal)
+                    muteButton.setImage(mutedImage, for: UIControlState())
                 }
-                muteButton.layer.anchorPoint = CGPointMake(1.0, 1.0)
+                muteButton.layer.anchorPoint = CGPoint(x: 1.0, y: 1.0)
                 muteButton.layer.zPosition = 5
-                muteButton.addTarget(self, action: #selector(GameScene.muteAudio(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+                muteButton.addTarget(self, action: #selector(GameScene.muteAudio(_:)), for: UIControlEvents.touchUpInside)
                 
                 // Access the current screen width
                 let screenWidth = self.screenSize.height
@@ -675,29 +675,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 switch screenWidth {
                 case 0...480:
                     // Iphone 4
-                    gameOverLabel.frame = CGRectMake(self.frame.size.width * 0.5 - 125, 100, 250, 200)
-                    backToMainMenuButton.frame = CGRectMake(-80, self.frame.size.height * 0.6, 80, 80)
-                    restartGameButton.frame = CGRectMake(restartGameButton.frame.size.width + self.frame.size.width, self.frame.size.height * 0.6, 80, 80)
-                    muteButton.frame = CGRectMake(-80, self.frame.size.height * 0.8, 80, 80)
+                    gameOverLabel.frame = CGRect(x: self.frame.size.width * 0.5 - 125, y: 100, width: 250, height: 200)
+                    backToMainMenuButton.frame = CGRect(x: -80, y: self.frame.size.height * 0.6, width: 80, height: 80)
+                    restartGameButton.frame = CGRect(x: restartGameButton.frame.size.width + self.frame.size.width, y: self.frame.size.height * 0.6, width: 80, height: 80)
+                    muteButton.frame = CGRect(x: -80, y: self.frame.size.height * 0.8, width: 80, height: 80)
                 case 481...568:
                     // Iphone 5
-                    gameOverLabel.frame = CGRectMake(self.frame.size.width * 0.5 - 125, 140, 250, 200)
-                    backToMainMenuButton.frame = CGRectMake(-80, self.frame.size.height * 0.6, 80, 80)
-                    restartGameButton.frame = CGRectMake(restartGameButton.frame.size.width + self.frame.size.width, self.frame.size.height * 0.6, 80, 80)
-                    muteButton.frame = CGRectMake(-80, self.frame.size.height * 0.8, 80, 80)
+                    gameOverLabel.frame = CGRect(x: self.frame.size.width * 0.5 - 125, y: 140, width: 250, height: 200)
+                    backToMainMenuButton.frame = CGRect(x: -80, y: self.frame.size.height * 0.6, width: 80, height: 80)
+                    restartGameButton.frame = CGRect(x: restartGameButton.frame.size.width + self.frame.size.width, y: self.frame.size.height * 0.6, width: 80, height: 80)
+                    muteButton.frame = CGRect(x: -80, y: self.frame.size.height * 0.8, width: 80, height: 80)
                 case 569...667:
                     // Iphone 6
-                    gameOverLabel.frame = CGRectMake(self.frame.size.width * 0.5 - 125, 210, 250, 200)
-                    backToMainMenuButton.frame = CGRectMake(-80, self.frame.size.height * 0.6, 80, 80)
-                    restartGameButton.frame = CGRectMake(restartGameButton.frame.size.width + self.frame.size.width, self.frame.size.height * 0.6, 80, 80)
-                    muteButton.frame = CGRectMake(-80, self.frame.size.height * 0.85, 80, 80)
+                    gameOverLabel.frame = CGRect(x: self.frame.size.width * 0.5 - 125, y: 210, width: 250, height: 200)
+                    backToMainMenuButton.frame = CGRect(x: -80, y: self.frame.size.height * 0.6, width: 80, height: 80)
+                    restartGameButton.frame = CGRect(x: restartGameButton.frame.size.width + self.frame.size.width, y: self.frame.size.height * 0.6, width: 80, height: 80)
+                    muteButton.frame = CGRect(x: -80, y: self.frame.size.height * 0.85, width: 80, height: 80)
                 default:
                     // Iphone 6 plus
                     gameOverLabel.font = UIFont(name: "Avenir Next", size: 45)
-                    gameOverLabel.frame = CGRectMake(self.frame.size.width * 0.5 - 175, 210, 350, 200)
-                    backToMainMenuButton.frame = CGRectMake(-80, self.frame.size.height * 0.6, 80, 80)
-                    restartGameButton.frame = CGRectMake(restartGameButton.frame.size.width + self.frame.size.width, self.frame.size.height * 0.6, 80, 80)
-                    muteButton.frame = CGRectMake(-80, self.frame.size.height * 0.85, 80, 80)
+                    gameOverLabel.frame = CGRect(x: self.frame.size.width * 0.5 - 175, y: 210, width: 350, height: 200)
+                    backToMainMenuButton.frame = CGRect(x: -80, y: self.frame.size.height * 0.6, width: 80, height: 80)
+                    restartGameButton.frame = CGRect(x: restartGameButton.frame.size.width + self.frame.size.width, y: self.frame.size.height * 0.6, width: 80, height: 80)
+                    muteButton.frame = CGRect(x: -80, y: self.frame.size.height * 0.85, width: 80, height: 80)
                 }
                 
                 // Locations configured, add to view
@@ -706,10 +706,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.view!.addSubview(restartGameButton)
                 self.view!.addSubview(muteButton)
                 
-                self.physicsWorld.gravity = CGVectorMake(0.0, -6.5)
+                self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -6.5)
                 
                 // Animate the buttons
-                UIView.animateWithDuration(0.5, animations: {
+                UIView.animate(withDuration: 0.5, animations: {
                     restartGameButton.layer.position.x =  self.frame.size.width - self.frame.size.width * 0.3
                     backToMainMenuButton.layer.position.x = self.frame.size.width - self.frame.size.width * 0.7
                     muteButton.layer.position.x = self.frame.size.width - self.frame.size.width * 0.7
@@ -720,7 +720,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func addCoinToParent() {
-        coins.enumerateChildNodesWithName("scoreNode") {
+        coins.enumerateChildNodes(withName: "scoreNode") {
             node, stop in
             node.removeFromParent()
         }
@@ -729,16 +729,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     } */
     }
     
-    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+    func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
         if isAlive && stuffInTheScene { // Check if player is alive & game has started
             // Check swipe direction to change gravity direction (Up / Down)
             if let swipeGesture = gesture as? UISwipeGestureRecognizer {
                 switch swipeGesture.direction {
-                case UISwipeGestureRecognizerDirection.Up: // Swipe up
-                    self.physicsWorld.gravity = CGVectorMake(0.0, 6.5)
+                case UISwipeGestureRecognizerDirection.up: // Swipe up
+                    self.physicsWorld.gravity = CGVector(dx: 0.0, dy: 6.5)
                     player.startFlyingUp()
-                case UISwipeGestureRecognizerDirection.Down: // Swipe down
-                    self.physicsWorld.gravity = CGVectorMake(0.0, -6.5)
+                case UISwipeGestureRecognizerDirection.down: // Swipe down
+                    self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -6.5)
                     player.startFlyingDown()
                 default:
                     break
@@ -762,21 +762,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func muteAudio(sender: UIButton!) {
+    func muteAudio(_ sender: UIButton!) {
         if (muted == false) {
             muted = true
-            userSettingsDefaults.setBool(muted, forKey: "Muted")
-            muteButton.setImage(mutedImage, forState: .Normal)
+            userSettingsDefaults.set(muted, forKey: "Muted")
+            muteButton.setImage(mutedImage, for: UIControlState())
         } else {
             muted = false
-            userSettingsDefaults.setBool(muted, forKey: "Muted")
-            muteButton.setImage(unmutedImage, forState: .Normal)
+            userSettingsDefaults.set(muted, forKey: "Muted")
+            muteButton.setImage(unmutedImage, for: UIControlState())
         }
     }
     
-    func restartGameButtonAction(sender: UIButton) {
+    func restartGameButtonAction(_ sender: UIButton) {
         // Animate UIButton and UILabel
-        UIView.animateWithDuration(0.5, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             restartGameButton.layer.position.x = self.frame.size.width + restartGameButton.frame.size.width
             backToMainMenuButton.layer.position.x -= self.frame.size.width - self.frame.size.width / 2
             muteButton.layer.position.x -= self.frame.size.width - self.frame.size.width / 2
@@ -793,9 +793,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func backToMainMenuButtonAction(sender: UIButton) {
+    func backToMainMenuButtonAction(_ sender: UIButton) {
         // Animate UIButton and UILabel
-        UIView.animateWithDuration(0.5, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             restartGameButton.layer.position.x = self.frame.size.width + restartGameButton.frame.size.width
             backToMainMenuButton.layer.position.x -= self.frame.size.width - self.frame.size.width / 2
             muteButton.layer.position.x -= self.frame.size.width - self.frame.size.width / 2
@@ -812,7 +812,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func restart(ButtonType: String) {
+    func restart(_ ButtonType: String) {
         // Restart the game
         // Remove labels and buttons
         restartGameButton.removeFromSuperview()
@@ -829,29 +829,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.scene?.removeFromParent()
         
         // Transition effect
-        let transition = SKTransition.fadeWithColor(backgroundColor, duration: 1.0)
+        let transition = SKTransition.fade(with: backgroundColor, duration: 1.0)
         transition.pausesOutgoingScene = false
         
         // scene
         var scene: SKScene!
         if ButtonType == "RestartGame" {
-            player.physicsBody?.dynamic = false
+            player.physicsBody?.isDynamic = false
             score = 0
-            self.physicsWorld.gravity = CGVectorMake(0.0, -1.5)
-            player.position = CGPointMake(self.frame.size.width / 2.8, self.frame.size.height * 0.5 - 50)
-            moving.enumerateChildNodesWithName("platformNode") {
+            self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -1.5)
+            player.position = CGPoint(x: self.frame.size.width / 2.8, y: self.frame.size.height * 0.5 - 50)
+            moving.enumerateChildNodes(withName: "platformNode") {
                 node, stop in
                 node.removeFromParent()
             }
-            moving.enumerateChildNodesWithName("platform2Node") {
+            moving.enumerateChildNodes(withName: "platform2Node") {
                 node, stop in
                 node.removeFromParent()
             }
-            moving.enumerateChildNodesWithName("scoreNode") {
+            moving.enumerateChildNodes(withName: "scoreNode") {
                 node, stop in
                 node.removeFromParent()
             }
-            coins.enumerateChildNodesWithName("coinNode") {
+            coins.enumerateChildNodes(withName: "coinNode") {
                 node, stop in
                 node.removeFromParent()
             }
@@ -861,7 +861,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             isAlive = true
             moving.speed = 1
             backgroundMusicPlayer.play()
-            player.physicsBody?.dynamic = true
+            player.physicsBody?.isDynamic = true
             moving.addChild(coins)
             self.startSpawningPlatforms()
           /*  scene = GameScene(size: skView.bounds.size)
@@ -871,7 +871,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.removeAllActions()
             self.removeFromParent()
             scene = MainMenuScene(size: skView.bounds.size)
-            scene.scaleMode = .AspectFill
+            scene.scaleMode = .aspectFill
             skView.presentScene(scene, transition: transition)
 
         }
@@ -880,11 +880,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       //  skView.presentScene(scene, transition: transition)
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
     }
     
-    func delay(delay: Double, closure:()->()) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
+    func delay(_ delay: Double, closure:@escaping ()->()) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
     }
 }

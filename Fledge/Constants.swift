@@ -64,7 +64,7 @@ let topBackgroundNode = SKNode()
 let platforms = SKNode()
 let coins = SKNode()
 
-let userSettingsDefaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
+let userSettingsDefaults: UserDefaults = UserDefaults.standard
 var highscore = Int()
 var spawnLocation = 0
 
@@ -73,13 +73,13 @@ var coinSpawned = Bool()
 var muted = Bool()
 var newHighscore = Bool()
 
-let fadeOut = SKAction.fadeOutWithDuration(0.1)
+let fadeOut = SKAction.fadeOut(withDuration: 0.1)
 
 var backgroundMusicPlayer = AVAudioPlayer()
-let backgroundMusic = NSBundle.mainBundle().pathForResource("background_music", ofType: "wav")
+let backgroundMusic = Bundle.main.path(forResource: "background_music", ofType: "wav")
 
 var coinSoundPlayer = AVAudioPlayer()
-let coinSound = NSBundle.mainBundle().pathForResource("point_low", ofType: "wav")
+let coinSound = Bundle.main.path(forResource: "point_low", ofType: "wav")
 
 var hitSoundPlayer = AVAudioPlayer()
-let hitSound = NSBundle.mainBundle().pathForResource("hit_sound_bestest", ofType: "wav")
+let hitSound = Bundle.main.path(forResource: "hit_sound_bestest", ofType: "wav")

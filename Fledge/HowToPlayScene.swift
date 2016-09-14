@@ -20,62 +20,65 @@ class HowToPlayScene: SKScene {
     var imageView: UIImageView!
     var background = SKSpriteNode()
     
-    let userSettingsDefaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()
+    let userSettingsDefaults: UserDefaults = UserDefaults.standard
     
     var notFirstTime = Bool()
     
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         backgroundColor = skyColor
         
-        background.position = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2)
+        background.position = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
         background.size = view.bounds.size
         background.texture = SKTexture(imageNamed: "HowToPlay1")
         background.zPosition = 2
         self.addChild(background)
         
-        backButton = UIButton(type: UIButtonType.Custom) as UIButton!
-        backButton.setImage(backButtonImage, forState: .Normal)
-        backButton.frame = CGRectMake(self.frame.size.width * 0.2, self.frame.size.height * 0.9, 80, 80)
-        backButton.layer.anchorPoint = CGPointMake(1.0, 1.0)
+        backButton = UIButton(type: UIButtonType.custom) as UIButton!
+        backButton.setImage(backButtonImage, for: .normal)
+        backButton.frame = CGRect(x: self.frame.size.width * 0.2, y: self.frame.size.height * 0.9, width: 80, height: 80)
+        backButton.layer.anchorPoint = CGPoint(x: 1.0, y: 1.0)
         backButton.layer.zPosition = 5
         //Make the playButton perform an action when pressed
-        backButton.addTarget(self, action: #selector(HowToPlayScene.backButtonAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        backButton.addTarget(self, action: #selector(HowToPlayScene.backButtonAction(_:)), for: UIControlEvents.touchUpInside)
         view.addSubview(self.backButton)
         
-        nextButton = UIButton(type: UIButtonType.Custom) as UIButton!
-        nextButton.setImage(nextButtonImage, forState: .Normal)
-        nextButton.frame = CGRectMake(self.frame.size.width * 0.8, self.frame.size.height * 0.9, 80, 80)
-        nextButton.layer.anchorPoint = CGPointMake(1.0, 1.0)
+        nextButton = UIButton(type: UIButtonType.custom) as UIButton!
+        nextButton.setImage(nextButtonImage, for: .normal)
+        nextButton.frame = CGRect(x: self.frame.size.width * 0.8, y: self.frame.size.height * 0.9, width: 80, height: 80)
+        nextButton.layer.anchorPoint = CGPoint(x: 1.0, y: 1.0)
         nextButton.layer.zPosition = 5
         //Make the playButton perform an action when pressed
-        nextButton.addTarget(self, action: #selector(HowToPlayScene.nextButtonAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        nextButton.addTarget(self, action: #selector(HowToPlayScene.nextButtonAction(_:)), for: UIControlEvents.touchUpInside)
         view.addSubview(self.nextButton)
         
     }
     
-    func delay(delay: Double, closure: ()->()) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
+    func delay(_ delay: Double, closure: @escaping ()->()) {
+        //dispatch_after(dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            closure()
+        }
     }
     
-    func backButtonAction(sender: UIButton!) {
+    func backButtonAction(_ sender: UIButton!) {
         delay(0.2) {
             //Return to main menu
             self.transitionToScene("back")
         }
     }
     
-    func nextButtonAction(sender: UIButton!) {
+    func nextButtonAction(_ sender: UIButton!) {
         delay(0.2) {
             //Transition to game scene
             self.transitionToScene("next")
             self.notFirstTime = true
-            self.userSettingsDefaults.setBool(self.notFirstTime, forKey: "NotFirstTime")
+            self.userSettingsDefaults.set(self.notFirstTime, forKey: "NotFirstTime")
             
         }
     }
     
-    func transitionToScene(toScene: String) {
+    func transitionToScene(_ toScene: String) {
         //Remove label and buttons
         nextButton.removeFromSuperview()
         backButton.removeFromSuperview()
@@ -89,17 +92,17 @@ class HowToPlayScene: SKScene {
         self.scene?.removeFromParent()
         
         //Transition effect
-        let transition = SKTransition.fadeWithColor(skyColor, duration: 1.0)
+        let transition = SKTransition.fade(with: skyColor, duration: 1.0)
         transition.pausesOutgoingScene = false
         
         //scene
         var scene: SKScene!
         if toScene == "back" {
             scene = MainMenuScene(size: skView.bounds.size)
-            scene.scaleMode = .AspectFill
+            scene.scaleMode = .aspectFill
         } else if toScene == "next" {
             scene = GameScene(size: skView.bounds.size)
-            scene.scaleMode = .AspectFill
+            scene.scaleMode = .aspectFill
         }
         
         //Present new scene with transition effect
