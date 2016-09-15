@@ -26,6 +26,7 @@
 		43B702751D7EE320009AF7B7 /* hit_sound_bestest.wav in Resources */ = {isa = PBXBuildFile; fileRef = 43B702741D7EE320009AF7B7 /* hit_sound_bestest.wav */; };
 		43B702771D7EE328009AF7B7 /* background_music.wav in Resources */ = {isa = PBXBuildFile; fileRef = 43B702761D7EE328009AF7B7 /* background_music.wav */; };
 		43B702791D7EE34A009AF7B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43B702781D7EE34A009AF7B7 /* Assets.xcassets */; };
+		43E8DEFC1D8AEEC6008571CD /* fledge.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 43E8DEFB1D8AEEC6008571CD /* fledge.atlas */; };
 		C4A0DE9E1D8706DD005B6D3E /* point_low.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4A0DE9D1D8706DD005B6D3E /* point_low.wav */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +52,7 @@
 		43B702741D7EE320009AF7B7 /* hit_sound_bestest.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hit_sound_bestest.wav; sourceTree = "<group>"; };
 		43B702761D7EE328009AF7B7 /* background_music.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = background_music.wav; sourceTree = "<group>"; };
 		43B702781D7EE34A009AF7B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		43E8DEFB1D8AEEC6008571CD /* fledge.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = fledge.atlas; sourceTree = "<group>"; };
 		C4A0DE9D1D8706DD005B6D3E /* point_low.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = point_low.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,6 +96,7 @@
 				43B702531D7EE257009AF7B7 /* Main.storyboard */,
 				43B702581D7EE257009AF7B7 /* LaunchScreen.storyboard */,
 				43B702781D7EE34A009AF7B7 /* Assets.xcassets */,
+				43E8DEFB1D8AEEC6008571CD /* fledge.atlas */,
 				43B7025B1D7EE257009AF7B7 /* Info.plist */,
 				43B702611D7EE27F009AF7B7 /* HowToPlayScene.swift */,
 				43B702651D7EE29D009AF7B7 /* Player.swift */,
@@ -179,6 +182,7 @@
 			files = (
 				43B702771D7EE328009AF7B7 /* background_music.wav in Resources */,
 				43B7024E1D7EE257009AF7B7 /* MainMenuScene.sks in Resources */,
+				43E8DEFC1D8AEEC6008571CD /* fledge.atlas in Resources */,
 				C4A0DE9E1D8706DD005B6D3E /* point_low.wav in Resources */,
 				43B7025A1D7EE257009AF7B7 /* LaunchScreen.storyboard in Resources */,
 				43B702551D7EE257009AF7B7 /* Main.storyboard in Resources */,

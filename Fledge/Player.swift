@@ -29,21 +29,21 @@ class Player: SKSpriteNode {
     
     // Animation normal
     func startFlying() {
-        self.removeAllActions()
+        /*self.removeAllActions()
         let animation = SKAction.animate(with: [PlayerTexture1, PlayerTexture2], timePerFrame: 0.2)
+        run(SKAction.repeatForever(animation)) */
+        let fledgeAtlas = SKTextureAtlas(named: "fledge")
+        var fledgeFrames = [SKTexture]()
+        
+        let numImages = fledgeAtlas.textureNames
+        for images in numImages {
+            let fledgeTextureName = "Fledge\(images).png"
+            fledgeFrames.append(fledgeAtlas.textureNamed(fledgeTextureName))
+        }
+        print(numImages)
+        let animation = SKAction.animate(with: fledgeFrames, timePerFrame: 0.1, resize: false, restore: true)
         run(SKAction.repeatForever(animation))
-    }
-    
-    func startFlyingUp() {
-        self.removeAllActions()
-        let upAnimation = SKAction.animate(with: [playerUp, playerUp2], timePerFrame: 0.2)
-        run(SKAction.repeatForever(upAnimation))
-    }
-    
-    func startFlyingDown() {
-        self.removeAllActions()
-        let downAnimation = SKAction.animate(with: [playerDown, playerDown2], timePerFrame: 0.2)
-        run(SKAction.repeatForever(downAnimation))
+        
     }
     
     func hasHitObstacle() {
