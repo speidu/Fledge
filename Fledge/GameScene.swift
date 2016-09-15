@@ -86,12 +86,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         movingBottomPlatform = BottomPlatform(size: CGSize(width: BottomPlatformTexture.size().width, height: BottomPlatformTexture.size().height))
         movingTopPlatform = TopPlatform(size: CGSize(width: TopPlatformTexture.size().width, height: TopPlatformTexture.size().height))
-
-        if screenHeight > 480 { // No bottom ground texture for iphone 4 - doesnt fit in screen
-            movingBottomGround = Bottomground(size: CGSize(width: bottomGroundTexture.size().width, height: bottomGroundTexture.size().height))
-            moving.addChild(movingBottomGround)
-        }
+        movingBottomGround = Bottomground(size: CGSize(width: bottomGroundTexture.size().width, height: bottomGroundTexture.size().height))
         
+        moving.addChild(movingBottomGround)
         moving.addChild(movingBottomPlatform)
         moving.addChild(movingTopPlatform)
         moving.addChild(movingTopMountains)
@@ -115,14 +112,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // ADD EVERYTHING DEFINED ABOVE TO THE CORRECT POSITION DEPENDING ON DEVICE HEIGHT (POINTS)
         switch screenHeight {
-        case 0...480:
-            // Iphone 4
-            topPlatform.position = CGPoint(x: self.frame.width / 2, y: 358)
-            bottomPlatform.position = CGPoint(x: self.frame.width / 2, y: movingBottomPlatform.size.height / 2)
-            scoreLabel.position = CGPoint(x: 30, y: 310)
-            scoreLabel.fontSize = 35 // Smaller font for iphone 4
-            tunnel.position = CGPoint(x: self.frame.size.width / 2, y: movingBottomPlatform.size.height)
-        case 481...568:
+        case 0...568:
             // Iphone 5
             topPlatform.position = CGPoint(x: self.frame.width / 2, y: 438)
             bottomPlatform.position = CGPoint(x: self.frame.width / 2, y: 80)
@@ -275,10 +265,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if platformUpOrDown == 0 { // single bottom spawn
                 
                 switch screenWidth {
-                case 0...480:
-                    // Iphone 4
-                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: -23 + baseAddedHeightSingleSpawn)
-                case 481...568:
+                case 0...568:
                     // Iphone 5
                     platform.position = CGPoint(x: frameWidth + platform.size.width, y: 57 + baseAddedHeightSingleSpawn)
                 case 569...667:
@@ -291,10 +278,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             } else if platformUpOrDown == 1 { // Single top spawn
                 
                 switch screenWidth {
-                case 0...480:
-                    // Iphone 4
-                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 390 - baseAddedHeightSingleSpawn)
-                case 481...568:
+                case 0...568:
                     // Iphone 5
                     platform.position = CGPoint(x: frameWidth + platform.size.width, y: 461 - baseAddedHeightSingleSpawn)
                 case 569...667:
@@ -307,16 +291,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         case 1: // Setup Double platform spawn (Up and down)
             switch screenWidth {
-            case 0...480: // Iphone 4
-                if coinFlip == 0 { // Centered gap  +15 to up/down
-                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: -23 + randomAddedHeightDualSpawnPlatforms + 15)  //-15  -108 Top of bottomplatform
-                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 390 + randomAddedHeightDualSpawnPlatforms) // 475 Bottom of topplatform 94 difference
-                } else { // other gap
-                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: -23 - randomAddedHeightDualSpawnPlatforms)  //-15  -108 Top of bottomplatform
-                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 390 - randomAddedHeightDualSpawnPlatforms - 15) // 475 Bottom of topplatform 94 difference
-                }
-                platforms.addChild(platform2)
-            case 481...568: // Iphone 5
+            case 0...568: // Iphone 5
                 if coinFlip == 0 { // Centered gap  +15 to up/down
                     platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 57 + randomAddedHeightDualSpawnPlatforms + 15) // -37 top of bottomplatform
                     platform.position = CGPoint(x: frameWidth + platform.size.width, y: 461 + randomAddedHeightDualSpawnPlatforms) // 555 bottom of topplatform
@@ -347,16 +322,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         case 2: // Two platforms spawn a little apart from eachother
             switch screenWidth {
-            case 0...480: // Iphone 4
-                if coinFlip == 0 { // Centered gap  +15 to up/down
-                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 33 + randomAddedHeightDualSpawnPlatforms)  //-15  -108 Top of bottomplatform
-                    platform.position = CGPoint(x: frameWidth + platform.size.width + 85, y: 340 + randomAddedHeightDualSpawnPlatforms) // 475 Bottom of topplatform 94 difference
-                } else { // other gap
-                    platform2.position = CGPoint(x: frameWidth + platform.size.width + 85, y: 33 - randomAddedHeightDualSpawnPlatforms)  //-15  -108 Top of bottomplatform
-                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 340 - randomAddedHeightDualSpawnPlatforms) // 475 Bottom of topplatform 94 difference
-                }
-                platforms.addChild(platform2)
-            case 481...568: // Iphone 5
+            case 0...568: // Iphone 5
                 if coinFlip == 0 { // Centered gap  +15 to up/down 57
                     platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 107 + randomAddedHeightDualSpawnPlatforms) // -37 top of bottomplatform
                     platform.position = CGPoint(x: frameWidth + platform.size.width + 85, y: 411 + randomAddedHeightDualSpawnPlatforms) // 555 bottom of topplatform
@@ -387,10 +353,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         case 3: // Spawn a single platform that moves up/down
             switch screenWidth {
-            case 0...480: // Iphone 4
-                platform.position = CGPoint(x: frameWidth + platform.size.width, y: 87 + baseAddedHeightSingleSpawn)
-                platforms.addChild(platform2)
-            case 481...568: // Iphone 5
+            case 0...568: // Iphone 5
                 platform.position = CGPoint(x: frameWidth + platform.size.width, y: 87 + baseAddedHeightSingleSpawn)
                 platforms.addChild(platform2)
             case 569...667: // Iphone 6
@@ -481,10 +444,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 switch coinSpawnLocation {
                 case 0:
                     switch screenWidth {
-                    case 0...480:
-                        // iPhone 4
-                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.18)
-                    case 481...568:
+                    case 0...568:
                         // iPhone 5
                         coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.27)
                     case 569...667:
@@ -496,10 +456,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 case 1:
                     switch screenWidth {
-                    case 0...480:
-                        // iPhone 4
-                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.30)
-                    case 481...568:
+                    case 0...568:
                         // iPhone 5
                         coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.35)
                     case 569...667:
@@ -511,10 +468,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 case 2:
                     switch screenWidth {
-                    case 0...480:
-                        // iPhone 4
-                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.50)
-                    case 481...568:
+                    case 0...568:
                         // iPhone 5
                         coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.53)
                     case 569...667:
@@ -526,10 +480,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 case 3:
                     switch screenWidth {
-                    case 0...480:
-                        // iPhone 4
-                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.61)
-                    case 481...568:
+                    case 0...568:
                         // iPhone 5
                         coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.64)
                     case 569...667:
@@ -654,7 +605,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 // Create a play again button called restartGameButton
                 restartGameButton = UIButton(type: UIButtonType.custom)
-                restartGameButton.setImage(restartGameButtonImage, for: UIControlState())
+                restartGameButton.setImage(nextGameButtonImage, for: UIControlState())
                 restartGameButton.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
                 restartGameButton.layer.zPosition = 2
                 restartGameButton.addTarget(self, action: #selector(GameScene.restartGameButtonAction(_:)), for: UIControlEvents.touchUpInside)
@@ -682,13 +633,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 // ADD EVERYTHING DEFINED ABOVE TO THE CORRECT POSITION DEPENDING ON DEVICE HEIGHT (POINTS)
                 switch screenWidth {
-                case 0...480:
-                    // Iphone 4
-                    gameOverLabel.frame = CGRect(x: self.frame.size.width * 0.5 - 125, y: 100, width: 250, height: 200)
-                    backToMainMenuButton.frame = CGRect(x: -80, y: self.frame.size.height * 0.6, width: 80, height: 80)
-                    restartGameButton.frame = CGRect(x: restartGameButton.frame.size.width + self.frame.size.width, y: self.frame.size.height * 0.6, width: 80, height: 80)
-                    muteButton.frame = CGRect(x: -80, y: self.frame.size.height * 0.8, width: 80, height: 80)
-                case 481...568:
+                case 0...568:
                     // Iphone 5
                     gameOverLabel.frame = CGRect(x: self.frame.size.width * 0.5 - 125, y: 140, width: 250, height: 200)
                     backToMainMenuButton.frame = CGRect(x: -80, y: self.frame.size.height * 0.6, width: 80, height: 80)
@@ -755,7 +700,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func addToScene() {
-        let screenHeight = self.screenSize.height
         if stuffInTheScene == false {
             movingBottomPlatform.begin()
             movingTopPlatform.begin()
@@ -763,9 +707,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             movingTopMountains.begin()
             movingTopMountainsBackground.begin()
             player.startFlying()
-            if screenHeight > 480 {
-                movingBottomGround.begin() // for iPhone 4s - dont add movingBottomGround
-            }
+            movingBottomGround.begin()
         }
     }
     

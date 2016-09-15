@@ -72,12 +72,7 @@ class MainMenuScene: SKScene{
         
         // ADD EVERYTHING DEFINED ABOVE TO THE CORRECT POSITION DEPENDING ON DEVICE HEIGHT (POINTS)
         switch screenWidth {
-        case 0...480:
-            // Iphone 4
-            playButton.frame = CGRect(x: self.frame.size.width / 2.7, y: self.frame.size.height * 0.35, width: 80, height: 80)
-            muteButton.frame = CGRect(x: self.frame.size.width / 2.7, y: self.frame.size.height * 0.60, width: 80, height: 80)
-            highscoreLabel.position = CGPoint(x:self.frame.midX, y:CGFloat(self.frame.size.height * 0.1))
-        case 481...568:
+        case 0...568:
             // Iphone 5
             playButton.frame = CGRect(x: self.frame.width / 2.7, y: self.frame.size.height * 0.35, width: 80, height: 80)
             muteButton.frame = CGRect(x: self.frame.size.width / 2.7, y: self.frame.size.height * 0.60, width: 80, height: 80)

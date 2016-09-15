@@ -22,6 +22,7 @@ var isAlive = true
 var restartGameButton = UIButton()
 var backToMainMenuButton = UIButton()
 let restartGameButtonImage = UIImage(named: "restartGameButton") as UIImage!
+let nextGameButtonImage = UIImage(named: "NextButton") as UIImage!
 var muteButton = UIButton()
 let mutedImage = UIImage(named: "Muted") as UIImage!
 let unmutedImage = UIImage(named: "Unmuted") as UIImage!

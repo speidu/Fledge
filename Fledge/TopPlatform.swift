@@ -32,10 +32,7 @@ class TopPlatform : SKSpriteNode {
             
             // Add to the correct position depending on device height (points)
             switch screenWidth {
-            case 0...480:
-                // Iphone 4
-                topPlatformSprite.position = CGPoint(x: i * topPlatformSprite.size.width, y: 358)
-            case 481...568:
+            case 0...568:
                 // Iphone 5
                 topPlatformSprite.position = CGPoint(x: i * topPlatformSprite.size.width, y: 438)
             case 569...667:

@@ -31,10 +31,7 @@ class Bottomground : SKSpriteNode {
             
             // Add to the correct position depending on device height (points)
             switch screenWidth {
-            case 0...480:
-                // Iphone 4
-                bottomGroundSprite.position = CGPoint(x: i * bottomGroundSprite.size.width, y: -103)
-            case 481...568:
+            case 0...568:
                 // Iphone 5
                 bottomGroundSprite.position = CGPoint(x: i * bottomGroundSprite.size.width, y: -40)
             case 569...667:

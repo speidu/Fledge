@@ -38,10 +38,7 @@ class Mountains : SKSpriteNode {
             
             // Add to the correct position depending on device height (points)
             switch screenWidth {
-            case 0...480:
-                // Iphone 4
-                mountainSprite.position = CGPoint(x: i * mountainSprite.size.width, y: 455)
-            case 481...568:
+            case 0...568:
                 // Iphone 5
                 mountainSprite.position = CGPoint(x: i * mountainSprite.size.width, y: 535)
             case 569...667:

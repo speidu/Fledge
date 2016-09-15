@@ -13,10 +13,6 @@ class Player: SKSpriteNode {
     
     let PlayerTexture1 = SKTexture(imageNamed: "Player")
     let PlayerTexture2 = SKTexture(imageNamed: "Player2")
-    let playerUp = SKTexture(imageNamed: "PlayerUp")
-    let playerUp2 = SKTexture(imageNamed: "PlayerUp2")
-    let playerDown = SKTexture(imageNamed: "PlayerDown")
-    let playerDown2 = SKTexture(imageNamed: "PlayerDown2")
     
     init(size: CGSize) {
         super.init(texture: PlayerTexture1, color: UIColor.clear, size: CGSize(width: size.width, height: size.height))
@@ -29,10 +25,10 @@ class Player: SKSpriteNode {
     
     // Animation normal
     func startFlying() {
-        /*self.removeAllActions()
+        self.removeAllActions()
         let animation = SKAction.animate(with: [PlayerTexture1, PlayerTexture2], timePerFrame: 0.2)
-        run(SKAction.repeatForever(animation)) */
-        let fledgeAtlas = SKTextureAtlas(named: "fledge")
+        run(SKAction.repeatForever(animation))
+        /*let fledgeAtlas = SKTextureAtlas(named: "fledge")
         var fledgeFrames = [SKTexture]()
         
         let numImages = fledgeAtlas.textureNames
@@ -43,7 +39,7 @@ class Player: SKSpriteNode {
         print(numImages)
         let animation = SKAction.animate(with: fledgeFrames, timePerFrame: 0.1, resize: false, restore: true)
         run(SKAction.repeatForever(animation))
-        
+        */
     }
     
     func hasHitObstacle() {
