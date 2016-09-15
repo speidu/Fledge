@@ -595,22 +595,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
         if isAlive { // Check if player is alive, otherwise do nothing
             if (contact.bodyA.categoryBitMask == scoreCategory || contact.bodyB.categoryBitMask == scoreCategory){
+                
                 score += 1 // Increment score && update scoreLabel text
                 scoreLabel.text = "\(score)"
-                
+
             } else if (contact.bodyA.categoryBitMask == playerCategory && contact.bodyB.categoryBitMask == coinCategory || contact.bodyA.categoryBitMask == coinCategory && contact.bodyB.categoryBitMask == playerCategory) {
+                
+                //Check if game is Muted
+                if (muted == false) {
+                    coinSoundPlayer.play()
+                }
                 score += 5 // Increments score by 5 and makes the coin disappear
-                coinSoundPlayer.play()
                 // Animates the coin disappearing and  delays adding the coin back to the moving node, so the same coin you collected won't show up again
                 coin.run(fadeOut, completion: addCoinToParent)
                 scoreLabel.text = "\(score)" // Update scoreLabels text
+                
             }   else if (contact.bodyA.categoryBitMask == platformCategory || contact.bodyB.categoryBitMask == platformCategory) {
+                
                 // Player has died, stop the game && stop spawning platforms
-                self.removeAction(forKey: "platformSpawn")
-                self.removeAction(forKey: "coinSpawn")
                 isAlive = false
                 moving.speed = 0
                 scoreLabel.removeFromParent()
+                self.removeAction(forKey: "platformSpawn")
+                self.removeAction(forKey: "coinSpawn")
                 
                 if (backgroundMusicPlayer.isPlaying) {
                     backgroundMusicPlayer.stop()
@@ -784,11 +791,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Call restart function after 0.5s delay
         delay(0.5) {
-          /*  moving.removeAllChildren()
-            moving.removeAllActions()
-            moving.removeFromParent()
-            self.removeAllChildren()
-            self.removeAllActions() */
             self.restart("RestartGame")
         }
     }
@@ -834,7 +836,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // scene
         var scene: SKScene!
-        if ButtonType == "RestartGame" {
+        if ButtonType == "RestartGame" { // Reset everything to original positions
             player.physicsBody?.isDynamic = false
             score = 0
             self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -1.5)
@@ -855,17 +857,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 node, stop in
                 node.removeFromParent()
             }
-            coins.removeFromParent()
+                coins.removeFromParent()
+            isAlive = true
+            player.physicsBody?.isDynamic = true
             scoreLabel.text = "\(score)"
             moving.addChild(scoreLabel)
-            isAlive = true
-            moving.speed = 1
-            backgroundMusicPlayer.play()
-            player.physicsBody?.isDynamic = true
             moving.addChild(coins)
-            self.startSpawningPlatforms()
-          /*  scene = GameScene(size: skView.bounds.size)
-            scene.scaleMode = .AspectFill */
+            moving.speed = 1
+            self.startSpawningPlatforms() // Start the game again
+            if (muted == false) { // Continue the background music if not muted
+                backgroundMusicPlayer.play()
+            }
+
         } else if ButtonType == "BackToMenu" {
             self.removeAllChildren()
             self.removeAllActions()

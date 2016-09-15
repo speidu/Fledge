@@ -5,17 +5,24 @@
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
     "07830038E0B7170CC9E2E3AE27BBF5E50B05A888" : 0,
+    "0387924AD9951AD112C53F313E1221E1DD8B174C" : 9223372036854775807,
     "A6A4864BBCE1DED7686911790CC3898C8132CCFC" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "1FB832BF-B3A6-4707-800E-E1BF9D79A332",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "07830038E0B7170CC9E2E3AE27BBF5E50B05A888" : "Fledge\/",
+    "0387924AD9951AD112C53F313E1221E1DD8B174C" : "",
     "A6A4864BBCE1DED7686911790CC3898C8132CCFC" : ".."
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "Fledge",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
   "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Fledge.xcodeproj",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/speidu\/Fledge2.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0387924AD9951AD112C53F313E1221E1DD8B174C"
+    },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/speidu\/Fledge.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
