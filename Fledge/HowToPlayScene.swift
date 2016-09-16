@@ -14,7 +14,7 @@ class HowToPlayScene: SKScene {
     
     var skyColor = UIColor(red: 133.0/255.0, green: 197.0/255.0, blue: 207.0/255.0, alpha: 1.0)
     var backButton = UIButton()
-    var backButtonImage = UIImage(named: "BackButton") as UIImage!
+    var backButtonImage = UIImage(named: "MenuButton") as UIImage!
     var nextButton = UIButton()
     var nextButtonImage = UIImage(named: "NextButton") as UIImage!
     var imageView: UIImageView!
