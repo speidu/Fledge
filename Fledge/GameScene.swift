@@ -605,14 +605,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 // Create a play again button called restartGameButton
                 restartGameButton = UIButton(type: UIButtonType.custom)
-                restartGameButton.setImage(nextGameButtonImage, for: UIControlState())
+                restartGameButton.setImage(restartGameButtonImage, for: UIControlState())
                 restartGameButton.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
                 restartGameButton.layer.zPosition = 2
                 restartGameButton.addTarget(self, action: #selector(GameScene.restartGameButtonAction(_:)), for: UIControlEvents.touchUpInside)
                 
                 // Create a backToMainMenuButton to go back to menu
                 backToMainMenuButton = UIButton(type: UIButtonType.custom)
-                backToMainMenuButton.setImage(restartGameButtonImage, for: UIControlState())
+                backToMainMenuButton.setImage(menuButtonImage, for: UIControlState())
                 backToMainMenuButton.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
                 backToMainMenuButton.layer.zPosition = 2
                 backToMainMenuButton.addTarget(self, action: #selector(GameScene.backToMainMenuButtonAction(_:)), for: UIControlEvents.touchUpInside)

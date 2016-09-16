@@ -28,14 +28,31 @@ class MainMenuScene: SKScene{
     
     override func didMove(to view: SKView) {
         //Background color
-        backgroundColor = skyColor
+       // backgroundColor = skyColor
+        
+        // Access the current screen width
+        let screenWidth = self.screenSize.height
+        
+        var background = SKSpriteNode()
+        
+        switch screenWidth {
+        case 569...667:
+            background = SKSpriteNode(imageNamed: "iPhone6Background")
+        default:
+            background = SKSpriteNode(imageNamed: "MenuBackground")
+        }
+        background.position = CGPoint(x:self.frame.width / 2, y: self.frame.height / 2)
+        self.addChild(background)
         
         //Gametitle
-        let myLabel = SKLabelNode(fontNamed:"Avenir Next")
+      /*  let myLabel = SKLabelNode(fontNamed:"Avenir Next")
         myLabel.text = "Best Game EU"
         myLabel.fontSize = 45
         myLabel.position = CGPoint(x:self.frame.midX, y:CGFloat(self.frame.size.height * 0.8))
-        self.addChild(myLabel)
+        self.addChild(myLabel) */
+      /*  let title = SKSpriteNode(imageNamed: "TitleImage")
+        title.position = CGPoint(x:self.frame.midX, y:CGFloat(self.frame.size.height * 0.82))
+        self.addChild(title) */
         
         //PlayButton Setup
         playButton = UIButton(type: UIButtonType.custom) as UIButton!
@@ -56,7 +73,8 @@ class MainMenuScene: SKScene{
         } else {
             muteButton.setImage(mutedImage, for: .normal)
         }
-        //muteButton,frame = CGRectMake(self.frame.size.width / 2, self.frame.size.height * 0.65, 80, 80)
+        //muteButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+     //   muteButton.frame = CGRect(self.frame.size.width / 2, self.frame.size.height * 0.65, 80, 80)
         muteButton.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         muteButton.layer.zPosition = 5
         muteButton.addTarget(self, action: #selector(MainMenuScene.muteAudio(_:)), for: UIControlEvents.touchUpInside)
@@ -66,26 +84,27 @@ class MainMenuScene: SKScene{
         let highscoreLabel = SKLabelNode(fontNamed:"Avenir Next")
         highscoreLabel.text = "Highscore: \(highscore)"
         highscoreLabel.fontSize = 40
-        
-        // Access the current screen width
-        let screenWidth = self.screenSize.height
+        highscoreLabel.zPosition = 6
         
         // ADD EVERYTHING DEFINED ABOVE TO THE CORRECT POSITION DEPENDING ON DEVICE HEIGHT (POINTS)
         switch screenWidth {
         case 0...568:
             // Iphone 5
             playButton.frame = CGRect(x: self.frame.width / 2.7, y: self.frame.size.height * 0.35, width: 80, height: 80)
-            muteButton.frame = CGRect(x: self.frame.size.width / 2.7, y: self.frame.size.height * 0.60, width: 80, height: 80)
+            muteButton.frame = CGRect(x: self.frame.size.width / 2.38, y: self.frame.size.height * 0.60, width: 50, height: 50)
             highscoreLabel.position = CGPoint(x:self.frame.midX, y:CGFloat(self.frame.size.height * 0.1))
         case 569...667:
             // Iphone 6
-            playButton.frame = CGRect(x: self.frame.size.width / 2.6, y: self.frame.size.height * 0.37, width: 80, height: 80)
-            muteButton.frame = CGRect(x: self.frame.size.width / 2.6, y: self.frame.size.height * 0.60, width: 80, height: 80)
-            highscoreLabel.position = CGPoint(x:self.frame.midX, y:CGFloat(self.frame.size.height * 0.1))
+        //    playButton.frame = CGRect(x: self.frame.size.width / 2.6, y: self.frame.size.height * 0.37, width: 80, height: 80)
+        //    muteButton.frame = CGRect(x: self.frame.size.width / 2.34, y: self.frame.size.height * 0.60, width: 50, height: 50)
+        //    highscoreLabel.position = CGPoint(x:self.frame.midX, y:CGFloat(self.frame.size.height * 0.1))
+            playButton.frame = CGRect(x: self.frame.size.width / 2.6, y: self.frame.size.height * 0.33, width: 80, height: 80)
+            muteButton.frame = CGRect(x: self.frame.size.width / 2.34, y: self.frame.size.height * 0.55, width: 50, height: 50)
+            highscoreLabel.position = CGPoint(x:self.frame.midX, y:CGFloat(self.frame.size.height * 0.25))
         default:
             // Iphone 6 plus
             playButton.frame = CGRect(x: self.frame.size.width / 2.5, y: self.frame.size.height * 0.37, width: 80, height: 80)
-            muteButton.frame = CGRect(x: self.frame.size.width / 2.5, y: self.frame.size.height * 0.60, width: 80, height: 80)
+            muteButton.frame = CGRect(x: self.frame.size.width / 2.27, y: self.frame.size.height * 0.60, width: 50, height: 50)
             highscoreLabel.position = CGPoint(x:self.frame.midX, y:CGFloat(self.frame.size.height * 0.1))
         }
         
