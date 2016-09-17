@@ -17,7 +17,7 @@ class GameViewController: UIViewController {
         if let scene = MainMenuScene(fileNamed: "MainMenuScene") {
             // Configure the view.
             let skView = self.view as! SKView
-            skView.showsFPS = true
+            skView.showsFPS = false
             skView.showsNodeCount = true
             skView.showsPhysics = false;
             

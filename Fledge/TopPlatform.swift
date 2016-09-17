@@ -23,7 +23,7 @@ class TopPlatform : SKSpriteNode {
         physicsBody?.affectedByGravity = false
         
         var i: CGFloat = -1
-        while i < 2 + self.frame.size.width / TopPlatformTexture.size().width {
+        while i < 1 + self.frame.size.width / TopPlatformTexture.size().width {
             i += 1
             let topPlatformSprite = SKSpriteNode(texture: TopPlatformTexture)
             

@@ -20,7 +20,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         platformLocation = 2 // Force variable gap as first obstacle
         
         // Background color
-        backgroundColor = skyColor
+        //backgroundColor = skyColor
+        backgroundColor = UIColor.gray
         
         // Physics
         self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -1.5)
@@ -94,11 +95,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         moving.addChild(movingTopMountainsBackground)
         moving.addChild(movingTopBackground)
         
-        // Background sprite (tunnel)
-        let tunnel = SKSpriteNode(texture: tunnelTexture)
-        tunnel.zPosition = 1
-        tunnel.anchorPoint = CGPoint(x: 0.5, y: 0)
-        
         // highscore & Scorelabel setup
         highscore = userSettingsDefaults.integer(forKey: "Highscore")
         
@@ -116,25 +112,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             topPlatform.position = CGPoint(x: self.frame.width / 2, y: 438)
             bottomPlatform.position = CGPoint(x: self.frame.width / 2, y: 80)
             scoreLabel.position = CGPoint(x: self.frame.size.width / 2, y: 20)
-            tunnel.position = CGPoint(x: self.frame.size.width / 2, y: 80)
         case 569...667:
             // Iphone 6
             topPlatform.position = CGPoint(x: self.frame.width / 2, y: 468)
             bottomPlatform.position = CGPoint(x: self.frame.width / 2, y: 110)
             scoreLabel.position = CGPoint(x: self.frame.size.width / 2, y: 55)
-            tunnel.position = CGPoint(x: self.frame.size.width / 2, y: 110)
         default:
             // Iphone 6 plus
             topPlatform.position = CGPoint(x: self.frame.width / 2, y: 508)
             bottomPlatform.position = CGPoint(x: self.frame.width / 2, y: 150)
             scoreLabel.position = CGPoint(x: self.frame.size.width / 2, y: 75)
-            tunnel.position = CGPoint(x: self.frame.size.width / 2, y: 150)
         }
         
         moving.addChild(bottomPlatform) //Device height checked, add everything to scene
         moving.addChild(topPlatform)
         moving.addChild(coins)
-        moving.addChild(tunnel)
         moving.addChild(scoreLabel)
         moving.addChild(player)
         moving.speed = 1
@@ -144,6 +136,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             startSpawningPlatforms()
             beginPlayingBackgroundMusic()
             stuffInTheScene = true
+        }
+    }
+    
+    func addToScene() { // Animate sprites
+        if stuffInTheScene == false {
+            movingBottomPlatform.begin()
+            movingTopPlatform.begin()
+            movingTopBackground.begin()
+            movingTopMountains.begin()
+            movingTopMountainsBackground.begin()
+            player.startFlying()
+            movingBottomGround.begin()
         }
     }
     
@@ -204,8 +208,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.spawnCoins()
         })
         
-        self.run(SKAction.repeatForever(SKAction.sequence([actionwait,actionrun])), withKey: "platformSpawn")
-        self.run(SKAction.repeatForever(SKAction.sequence([coinWait,coinRun])), withKey: "coinSpawn")
+        run(SKAction.repeatForever(SKAction.sequence([actionwait,actionrun])), withKey: "platformSpawn")
+        run(SKAction.repeatForever(SKAction.sequence([coinWait,coinRun])), withKey: "coinSpawn")
         
     }
     
@@ -566,8 +570,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 isAlive = false
                 moving.speed = 0
                 scoreLabel.removeFromParent()
-                self.removeAction(forKey: "platformSpawn")
-                self.removeAction(forKey: "coinSpawn")
+                player.stop()
+                removeAction(forKey: "platformSpawn")
+                removeAction(forKey: "coinSpawn")
                 
                 if (backgroundMusicPlayer.isPlaying) {
                     backgroundMusicPlayer.stop()
@@ -575,7 +580,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if (muted == false) {
                     hitSoundPlayer.play()
                 }
-                coins.removeFromParent()
+
                 // Jump back a bit after colliding
                 player.physicsBody?.applyImpulse(CGVector(dx: -7, dy: 7))
                 self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -6.5)
@@ -696,18 +701,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func addToScene() {
-        if stuffInTheScene == false {
-            movingBottomPlatform.begin()
-            movingTopPlatform.begin()
-            movingTopBackground.begin()
-            movingTopMountains.begin()
-            movingTopMountainsBackground.begin()
-            player.startFlying()
-            movingBottomGround.begin()
-        }
-    }
-    
     func muteAudio(_ sender: UIButton!) {
         if (muted == false) {
             muted = true
@@ -799,7 +792,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 node, stop in
                 node.removeFromParent()
             }
-                coins.removeFromParent()
+            coins.removeFromParent()
+            
             isAlive = true
             player.physicsBody?.isDynamic = true
             scoreLabel.text = "\(score)"
@@ -808,6 +802,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             moving.speed = 1
             platforms.speed = 1
             self.startSpawningPlatforms() // Start the game again
+            player.startFlying()
             if (muted == false) { // Continue the background music if not muted
                 backgroundMusicPlayer.play()
             }

@@ -31,7 +31,7 @@ class Background : SKSpriteNode {
         }
         
         var i: CGFloat = -1
-        while i < 2 + self.frame.size.width / deviceBackgroundTexture.size().width {
+        while i < 1 + self.frame.size.width / deviceBackgroundTexture.size().width {
             i += 1
             
             let platformsprite = SKSpriteNode(texture: deviceBackgroundTexture)

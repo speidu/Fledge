@@ -22,7 +22,7 @@ class Bottomground : SKSpriteNode {
         anchorPoint = CGPoint(x: 0.5, y: 1)
         
         var i: CGFloat = -1
-        while i < 2 + self.frame.size.width / bottomGroundTexture.size().width {
+        while i < 1 + self.frame.size.width / bottomGroundTexture.size().width {
             i += 1
             let bottomGroundSprite = SKSpriteNode(texture: bottomGroundTexture)
             

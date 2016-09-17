@@ -31,7 +31,7 @@ class MountainsBackground : SKSpriteNode {
         }
         
         var i: CGFloat = -1
-        while i < 2 + self.frame.size.width / TopMountainBackgroundTexture.size().width {
+        while i < 1 + self.frame.size.width / TopMountainBackgroundTexture.size().width {
             i += 1
             let mountainSprite = SKSpriteNode(texture: TopMountainBackgroundTexture)
             

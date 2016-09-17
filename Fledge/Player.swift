@@ -47,6 +47,5 @@ class Player: SKSpriteNode {
     
     func stop() {
         self.removeAllActions()
-        self.removeFromParent()
     }
 }
