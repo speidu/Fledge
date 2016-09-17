@@ -21,6 +21,7 @@ var movingBottomGround: Bottomground!
 var isAlive = true
 var restartGameButton = UIButton()
 var backToMainMenuButton = UIButton()
+var resumeGameButton = UIButton()
 let restartGameButtonImage = UIImage(named: "restartGameButton") as UIImage!
 let nextGameButtonImage = UIImage(named: "NextButton") as UIImage!
 let menuButtonImage = UIImage(named: "MenuButton") as UIImage!
@@ -64,13 +65,19 @@ let bottomPlatform = SKNode()
 let topMountainsNode = SKNode()
 let topBackgroundNode = SKNode()
 let platforms = SKNode()
+let tutorials = SKNode()
 let coins = SKNode()
 
 let userSettingsDefaults: UserDefaults = UserDefaults.standard
 var highscore = Int()
+var notFirstTime = Bool()
 var spawnLocation = 0
 
 var platformSpawned = Bool()
+var coinSpawnedFirst = Bool()
+var newLocation = Int()
+var coinFlip = Int()
+var platformUpOrDown = Int()
 var coinSpawned = Bool()
 var muted = Bool()
 var newHighscore = Bool()

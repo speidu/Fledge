@@ -14,7 +14,6 @@
 		43B702521D7EE257009AF7B7 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B702511D7EE257009AF7B7 /* GameViewController.swift */; };
 		43B702551D7EE257009AF7B7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43B702531D7EE257009AF7B7 /* Main.storyboard */; };
 		43B7025A1D7EE257009AF7B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43B702581D7EE257009AF7B7 /* LaunchScreen.storyboard */; };
-		43B702621D7EE27F009AF7B7 /* HowToPlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B702611D7EE27F009AF7B7 /* HowToPlayScene.swift */; };
 		43B702641D7EE28D009AF7B7 /* MainMenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B702631D7EE28D009AF7B7 /* MainMenuScene.swift */; };
 		43B702661D7EE29D009AF7B7 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B702651D7EE29D009AF7B7 /* Player.swift */; };
 		43B702681D7EE2B0009AF7B7 /* Mountains.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B702671D7EE2B0009AF7B7 /* Mountains.swift */; };
@@ -40,7 +39,6 @@
 		43B702541D7EE257009AF7B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		43B702591D7EE257009AF7B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		43B7025B1D7EE257009AF7B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		43B702611D7EE27F009AF7B7 /* HowToPlayScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HowToPlayScene.swift; sourceTree = "<group>"; };
 		43B702631D7EE28D009AF7B7 /* MainMenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuScene.swift; sourceTree = "<group>"; };
 		43B702651D7EE29D009AF7B7 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		43B702671D7EE2B0009AF7B7 /* Mountains.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mountains.swift; sourceTree = "<group>"; };
@@ -98,7 +96,6 @@
 				43B702781D7EE34A009AF7B7 /* Assets.xcassets */,
 				43E8DEFB1D8AEEC6008571CD /* fledge.atlas */,
 				43B7025B1D7EE257009AF7B7 /* Info.plist */,
-				43B702611D7EE27F009AF7B7 /* HowToPlayScene.swift */,
 				43B702651D7EE29D009AF7B7 /* Player.swift */,
 				43B702671D7EE2B0009AF7B7 /* Mountains.swift */,
 				43B702691D7EE2BF009AF7B7 /* MountainsBackground.swift */,
@@ -202,7 +199,6 @@
 				43B702681D7EE2B0009AF7B7 /* Mountains.swift in Sources */,
 				43B702641D7EE28D009AF7B7 /* MainMenuScene.swift in Sources */,
 				43B7026A1D7EE2BF009AF7B7 /* MountainsBackground.swift in Sources */,
-				43B702621D7EE27F009AF7B7 /* HowToPlayScene.swift in Sources */,
 				43B7026E1D7EE2D9009AF7B7 /* TopPlatform.swift in Sources */,
 				43B702501D7EE257009AF7B7 /* Gamescene.swift in Sources */,
 				439DE20A1D7F3FFF00B8F5F5 /* Constants.swift in Sources */,

@@ -19,7 +19,6 @@ class MainMenuScene: SKScene{
     var mutedImage = UIImage(named: "Muted") as UIImage!
     let userSettingsDefaults: UserDefaults = UserDefaults.standard
     var highscore = Int()
-    var notFirstTime = Bool()
     var muted = Bool()
     
     // Screen size detection
@@ -49,7 +48,6 @@ class MainMenuScene: SKScene{
         //Make the playButton perform an action when pressed
         playButton.addTarget(self, action: #selector(MainMenuScene.playAgainButtonAction(_:)), for: UIControlEvents.touchUpInside)
         
-        notFirstTime = userSettingsDefaults.bool(forKey: "NotFirstTime")
         muted = userSettingsDefaults.bool(forKey: "Muted")
         
         //muteButton Setup
@@ -93,7 +91,6 @@ class MainMenuScene: SKScene{
         view.addSubview(self.playButton)
         view.addSubview(self.muteButton)
         self.addChild(highscoreLabel)
-        
     }
     
     func delay(_ delay: Double, closure: @escaping ()->()) {
@@ -105,18 +102,8 @@ class MainMenuScene: SKScene{
     
     func playAgainButtonAction(_ sender: UIButton!) {
         delay(0.2) {
-            if self.notFirstTime == true {
                 //Play the game
                 self.transitionToScene("play")
-            } else {
-                self.transitionToScene("howToPlay")
-            }
-        }
-    }
-    
-    func howToPlayButtonAction(_ sender: UIButton!) {
-        delay(0.2) {
-            self.transitionToScene("howToPlay")
         }
     }
     
@@ -154,11 +141,7 @@ class MainMenuScene: SKScene{
         if toScene == "play" {
             scene = GameScene(size: skView.bounds.size)
             scene.scaleMode = .aspectFill
-        } else if toScene == "howToPlay" {
-            scene = HowToPlayScene(size: skView.bounds.size)
-            scene.scaleMode = .aspectFill
         }
-        
         //Present new scene with transition effect
         skView.presentScene(scene, transition: transition)
         

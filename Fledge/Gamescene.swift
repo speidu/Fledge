@@ -17,6 +17,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         stuffInTheScene = false
         isAlive = true
+        notFirstTime = userSettingsDefaults.bool(forKey: "NotFirstTime")
         platformLocation = 2 // Force variable gap as first obstacle
         
         // Background color
@@ -59,7 +60,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player = Player(size: CGSize(width: PlayerTexture1.size().width, height: PlayerTexture1.size().height))
         player.position = CGPoint(x: self.frame.size.width / 2.8, y: self.frame.size.height * 0.5 - 50)
         player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.height / 2)
-        player.physicsBody?.isDynamic = true
+        if (notFirstTime == true) {
+            player.physicsBody?.isDynamic = true
+        } else {
+            player.physicsBody?.isDynamic = false
+        }
         player.physicsBody?.categoryBitMask = playerCategory
         player.physicsBody?.collisionBitMask = platformCategory
         player.physicsBody?.allowsRotation = false
@@ -68,6 +73,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Moving & platforms node
         addChild(moving)
+        addChild(tutorials)
         
         // Call an instance of Top, Bottomplatform, Bottomground, Mountains and Background classes
         let screenHeight = self.screenSize.height
@@ -129,9 +135,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         moving.addChild(coins)
         moving.addChild(scoreLabel)
         moving.addChild(player)
-        moving.speed = 1
         
-        if stuffInTheScene == false { // Add things to scene and start the game
+        if notFirstTime == false && stuffInTheScene == false{
+            moving.speed = 0
+            
+            let blackScreen = SKSpriteNode()
+            blackScreen.size = CGSize(width: self.frame.size.width, height: self.frame.size.height)
+            blackScreen.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+            blackScreen.alpha = 0.8
+            blackScreen.color = UIColor.black
+            blackScreen.zPosition = 8
+            blackScreen.name = "BlackScreen"
+            tutorials.addChild(blackScreen)
+            
+            let tutorial = SKSpriteNode(imageNamed: "Tutorial")
+            tutorial.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+            tutorial.zPosition = 8
+            tutorial.name = "Tutorial"
+            tutorials.addChild(tutorial)
+            
+            resumeGameButton = UIButton(type: UIButtonType.custom)
+            resumeGameButton.setImage(nextGameButtonImage, for: UIControlState())
+            resumeGameButton.frame = CGRect(x: self.frame.width * 0.6, y: self.frame.height * 0.6, width: 80, height: 80)
+            resumeGameButton.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            resumeGameButton.layer.zPosition = 9
+            resumeGameButton.addTarget(self, action: #selector(GameScene.resumeGameButtonAction(_:)), for: UIControlEvents.touchUpInside)
+            self.view!.addSubview(resumeGameButton)
+            
+        } else if stuffInTheScene == false { // Add things to scene and start the game
+            moving.speed = 1
             addToScene()
             startSpawningPlatforms()
             beginPlayingBackgroundMusic()
@@ -237,8 +269,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Access the current screen width
         let screenWidth = screenSize.height
         
-        let newLocation = DeterminePlatformLocation(platformLocation)
-        platformLocation = newLocation
+        if coinSpawnedFirst {
+            print("Benis")
+        } else {
+            newLocation = DeterminePlatformLocation(platformLocation)
+            platformLocation = newLocation
+            coinFlip = Int(arc4random_uniform(2)) // For double spawns - gap up or down
+            platformUpOrDown = Int(arc4random_uniform(2))
+        }
+        
+   /*     let newLocation = DeterminePlatformLocation(platformLocation)
+        platformLocation = newLocation */
         
         if newLocation == 1 || newLocation == 2 { // If more than 1 platform, setup platform2 properties
             platform2.zPosition = 2
@@ -256,14 +297,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let randomAddedHeight =  CGFloat(arc4random_uniform(25))
         let baseAddedHeightSingleSpawn : CGFloat = 100 + randomAddedHeight
         let randomAddedHeightDualSpawnPlatforms = CGFloat(arc4random_uniform(65))
-        let coinFlip = arc4random_uniform(2) // For double spawns - gap up or down
+       // let coinFlip = arc4random_uniform(2) // For double spawns - gap up or down
         let frameWidth = self.frame.size.width
         
         switch newLocation { //Check newlocation and setup platform locations
             
         case 0: // Setup single platform spawn location
             
-            let platformUpOrDown = Int(arc4random_uniform(2))
+          //  let platformUpOrDown = Int(arc4random_uniform(2))
             
             if platformUpOrDown == 0 { // single bottom spawn
                 
@@ -425,8 +466,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func spawnCoins() {
         
-       // if (platformSpawned == false && coinSpawned == false)
-         if (coinSpawned == false) {
+        // if (platformSpawned == false && coinSpawned == false)
+        if (coinSpawned == false) {
+            
+            coinSpawnedFirst = true
+            newLocation = DeterminePlatformLocation(platformLocation)
+            platformLocation = newLocation
+            coinFlip = Int(arc4random_uniform(2)) // For double spawns - gap up or down
+            platformUpOrDown = Int(arc4random_uniform(2))
+            
+            delay(0.8) {
+                coinSpawnedFirst = false
+            }
             
             // Setting up coins
             coin = SKSpriteNode(texture: coinTexture)
@@ -443,100 +494,207 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             coin.name = "coinNode"
             
             let screenWidth = self.screenSize.height
-        //    let determineCoinSpawn = arc4random_uniform(6)
-            let coinSpawnLocation = arc4random_uniform(4)
-            var coinMovement = arc4random_uniform(2)
-
-            switch coinSpawnLocation {
-                case 0:
-                    switch screenWidth {
-                    case 0...568:
-                        // iPhone 5
-                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.27)
-                    case 569...667:
-                        // iPhone 6
-                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.27)
-                    default:
-                        // iPhone 6 plus
-                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.29)
-                    }
-                case 1:
-                    switch screenWidth {
-                    case 0...568:
-                        // iPhone 5
-                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.35)
-                    case 569...667:
-                        // iPhone 6
-                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.37)
-                    default:
-                        // iPhone 6 plus
-                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.36)
-                    }
-                case 2:
-                    switch screenWidth {
-                    case 0...568:
-                        // iPhone 5
-                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.53)
-                    case 569...667:
-                        // iPhone 6
-                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.50)
-                    default:
-                        // iPhone 6 plus
-                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.54)
-                    }
-                case 3:
-                    switch screenWidth {
-                    case 0...568:
-                        // iPhone 5
-                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.64)
-                    case 569...667:
-                        // iPhone 6
-                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.59)
-                    default:
-                        // iPhone 6 plus
-                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.61)
-                    }
-                default:
-                    break
-                }
-            
-            if (platformSpawned == true) {
-                coin.position =  CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.99)
-                coinMovement = 0
-            }
-            
-            coins.addChild(coin)
-            delayCoinSpawn()
-            // Platform moving time
-            // let moveDuration = NSTimeInterval(self.frame.size.width * 0.0055) // default 0.0055
-            let moveDuration = TimeInterval(self.frame.size.width * 0.0070)
-            
-            // Move platform, platform2, scoreNode and remove from scene
-            let movePlatform = SKAction.moveBy(x: -self.frame.size.width - platformSmall1.size().width * 2 - 85, y: 0, duration: moveDuration )
-            let removePlatform = SKAction.removeFromParent()
-            let movePlatformAndRemove = SKAction.sequence([movePlatform, removePlatform])
+            //    let determineCoinSpawn = arc4random_uniform(6)
+            let coinSpawnLocation = Int(arc4random_uniform(2))
+            let coinMovement = arc4random_uniform(2)
             let moveCoinUp = SKAction.moveBy(x: 0, y: 350, duration: 5.0)
             let moveCoinDown = SKAction.moveBy(x: 0, y: -350, duration: 5.0)
-            switch coinMovement {
-            case 0:
-                break
-            case 1:
-                if (coinSpawnLocation == 0) {
-                    coin.run(moveCoinUp)
-                } else if (coinSpawnLocation == 1) {
-                    coin.run(moveCoinUp)
-                } else if (coinSpawnLocation == 3) {
-                    coin.run(moveCoinDown)
-                } else {
-                    coin.run(moveCoinDown)
+            
+            switch newLocation { //Check newlocation and setup platform locations
+                
+            case 0: // Setup single platform spawn location
+                
+                if platformUpOrDown == 0 { // single bottom spawn
+                    
+                    switch screenWidth {
+                    case 0...568:
+                        // Iphone 5
+                        if coinMovement == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.41)
+                            coin.run(moveCoinUp)
+                        } else if coinSpawnLocation == 1{
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.64)
+                        } else {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.49)
+                        }
+                    case 569...667:
+                        // Iphone 6
+                        if coinMovement == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.38)
+                            coin.run(moveCoinUp)
+                        } else if coinSpawnLocation == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.59)
+                        } else {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.49)
+                        }
+                    default:
+                        // Iphone 6 plus
+                        if coinMovement == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.39)
+                            coin.run(moveCoinUp)
+                        } else if coinSpawnLocation == 1{
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.61)
+                        } else {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.51)
+                        }
+                    }
+                    coins.addChild(coin)
+                } else if platformUpOrDown == 1 { // Single top spawn
+                    
+                    switch screenWidth {
+                    case 0...568:
+                        // Iphone 5
+                        if coinMovement == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.50)
+                            coin.run(moveCoinDown)
+                        } else if coinSpawnLocation == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.27)
+                        } else {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.41)
+                        }
+                    case 569...667:
+                        // Iphone 6
+                        if coinMovement == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.50)
+                            coin.run(moveCoinDown)
+                        } else if coinSpawnLocation == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.27)
+                        } else {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.41)
+                        }
+                    default:
+                        // Iphone 6 plus
+                        if coinMovement == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.52)
+                            coin.run(moveCoinDown)
+                        } else if coinSpawnLocation == 1{
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.29)
+                        } else {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.39)
+                        }
+                    }
+                    coins.addChild(coin)
+                }
+            case 1: // Setup Double platform spawn (Up and down)
+                switch screenWidth {
+                case 0...568: // Iphone 5
+                    if coinFlip == 0 { // Centered gap  +15 to up/down
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.37)
+                    } else { // other gap
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.54)
+                    }
+                    coins.addChild(coin)
+                case 569...667: // Iphone 6
+                    if coinFlip == 0 {
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.37)
+                    } else {
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.49)
+                    }
+                    coins.addChild(coin)
+                default: // Iphone 6 plus
+                    if coinFlip == 0 {
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.39)
+                    } else {
+                        coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.51)
+                    }
+                    coins.addChild(coin)
+                }
+                
+            case 2: // Two platforms spawn a little apart from eachother
+                switch screenWidth {
+                case 0...568: // Iphone 5
+                    if coinFlip == 0 { // Centered gap  +15 to up/down 57
+                        if coinMovement == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.41)
+                            coin.run(moveCoinUp)
+                        } else if coinSpawnLocation == 1{
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.64)
+                        } else {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.49)
+                        }
+                    } else { // other gap
+                        if coinMovement == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.50)
+                            coin.run(moveCoinDown)
+                        } else if coinSpawnLocation == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.27)
+                        } else {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.41)
+                        }
+                    }
+                    coins.addChild(coin)
+                case 569...667: // Iphone 6
+                    if coinFlip == 0 { //
+                        if coinMovement == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.41)
+                            coin.run(moveCoinUp)
+                        } else if coinSpawnLocation == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.59)
+                        } else {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.49)
+                        }
+                    } else {
+                        if coinMovement == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.50)
+                            coin.run(moveCoinDown)
+                        } else if coinSpawnLocation == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.27)
+                        } else {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.41)
+                        }
+                    }
+                    coins.addChild(coin)
+                default: // Iphone 6 plus
+                    if coinFlip == 0 {
+                        if coinMovement == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.39)
+                            coin.run(moveCoinUp)
+                        } else if coinSpawnLocation == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.61)
+                        } else {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.51)
+                        }
+                    } else {
+                        if coinMovement == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.52)
+                            coin.run(moveCoinDown)
+                        } else if coinSpawnLocation == 1 {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.29)
+                        } else {
+                            coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.39)
+                        }
+                    }
+                    coins.addChild(coin)
                 }
             default:
                 break
             }
             
+            
+            if (platformSpawned == true) {
+                coin.position =  CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.99)
+                coins.enumerateChildNodes(withName: "coinNode") {
+                    node, stop in
+                    node.removeFromParent()
+                }
+            }
+            
+            delayCoinSpawn()
+            // Platform moving time
+            let moveDuration = TimeInterval(self.frame.size.width * 0.0070)
+            
+            // Move platform, platform2, scoreNode and remove from scene
+            let movePlatform = SKAction.moveBy(x: -self.frame.size.width - platformSmall1.size().width * 2 - 85, y: 0, duration: moveDuration )
+            //    let removePlatform = SKAction.removeFromParent()
+            let removeCoin =  SKAction.run {
+                coins.enumerateChildNodes(withName: "coinNode") {
+                    node, stop in
+                    node.removeFromParent()
+                }
+            }
+            let movePlatformAndRemove = SKAction.sequence([movePlatform, removeCoin])
             coin.run(movePlatformAndRemove)
         }
- 
     }
     
     func delayCoinSpawn() {
@@ -561,7 +719,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 score += 5 // Increments score by 5 and makes the coin disappear
                 // Animates the coin disappearing and  delays adding the coin back to the moving node, so the same coin you collected won't show up again
-                coin.run(fadeOut, completion: addCoinToParent)
+                coin.run(fadeOut, completion: removeCoinFromParent)
                 scoreLabel.text = "\(score)" // Update scoreLabels text
                 
             }   else if (contact.bodyA.categoryBitMask == platformCategory || contact.bodyB.categoryBitMask == platformCategory) {
@@ -675,14 +833,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func addCoinToParent() {
-        coins.enumerateChildNodes(withName: "scoreNode") {
+    func removeCoinFromParent() {
+        coins.enumerateChildNodes(withName: "coinNode") {
             node, stop in
             node.removeFromParent()
         }
-  /*  delay(1.0) {
-        moving.addChild(coins)
-    } */
     }
     
     func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
@@ -749,6 +904,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func resumeGameButtonAction(_ sender: UIButton) {
+        tutorials.enumerateChildNodes(withName: "BlackScreen") {
+            node, stop in
+            node.removeFromParent()
+        }
+        tutorials.enumerateChildNodes(withName: "Tutorial") {
+            node, stop in
+            node.removeFromParent()
+        }
+        tutorials.removeFromParent()
+        resumeGameButton.removeFromSuperview()
+        moving.speed = 1
+        addToScene()
+        startSpawningPlatforms()
+        beginPlayingBackgroundMusic()
+        stuffInTheScene = true
+        userSettingsDefaults.set(true, forKey: "NotFirstTime")
+        delay(0.05) {
+            player.physicsBody?.isDynamic = true
+        }
+    }
+    
     func restart(_ ButtonType: String) {
         // Restart the game
         // Remove labels and buttons
@@ -808,6 +985,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
 
         } else if ButtonType == "BackToMenu" {
+           coins.enumerateChildNodes(withName: "coinNode") {
+                node, stop in
+                node.removeFromParent()
+            }
             self.removeAllChildren()
             self.removeAllActions()
             self.removeFromParent()
