@@ -136,10 +136,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         moving.addChild(scoreLabel)
         moving.addChild(player)
         
-        if notFirstTime == false && stuffInTheScene == false{
+        if notFirstTime == false && stuffInTheScene == false{ // Setup how to play screen for first launch time
             moving.speed = 0
             
-            let blackScreen = SKSpriteNode()
+            let blackScreen = SKSpriteNode() // Black background
             blackScreen.size = CGSize(width: self.frame.size.width, height: self.frame.size.height)
             blackScreen.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
             blackScreen.alpha = 0.8
@@ -148,13 +148,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             blackScreen.name = "BlackScreen"
             tutorials.addChild(blackScreen)
             
-            let tutorial = SKSpriteNode(imageNamed: "Tutorial")
+            let tutorial = SKSpriteNode(imageNamed: "Tutorial") // Tutorial sprite
             tutorial.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
             tutorial.zPosition = 8
             tutorial.name = "Tutorial"
             tutorials.addChild(tutorial)
             
-            resumeGameButton = UIButton(type: UIButtonType.custom)
+            resumeGameButton = UIButton(type: UIButtonType.custom) // Resume the game button
             resumeGameButton.setImage(nextGameButtonImage, for: UIControlState())
             resumeGameButton.frame = CGRect(x: self.frame.width * 0.6, y: self.frame.height * 0.6, width: 80, height: 80)
             resumeGameButton.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -229,7 +229,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Call splawnPlatforms function nth second
     func startSpawningPlatforms() {
-        // platformSpawnTimer = NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(GameScene.spawnPlatforms), userInfo: nil, repeats: true)
         let actionwait = SKAction.wait(forDuration: 1.55)
         let actionrun = SKAction.run({
             self.spawnPlatforms()
@@ -249,7 +248,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func DeterminePlatformLocation(_ previousPlatformLocation: Int) -> Int {
         //Check previous platform location
         while spawnLocation == previousPlatformLocation { // Force different spawn every time
-            spawnLocation = Int(arc4random_uniform(3))
+            spawnLocation = Int(arc4random_uniform(4))
         }
         if previousPlatformLocation != 1 { // Every second spawn should be 2 platforms with variable gap
             spawnLocation = 1
@@ -263,7 +262,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Platform texture setup
         let platform = SKSpriteNode(texture: platformSmall1)
-        let platform2 = SKSpriteNode(texture: platformSmall1)
+        var platform2 = SKSpriteNode(texture: platformSmall1)
         let scoreNode = SKSpriteNode()
         
         // Access the current screen width
@@ -278,12 +277,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             platformUpOrDown = Int(arc4random_uniform(2))
         }
         
-   /*     let newLocation = DeterminePlatformLocation(platformLocation)
-        platformLocation = newLocation */
-        
-        if newLocation == 1 || newLocation == 2 { // If more than 1 platform, setup platform2 properties
+        if newLocation == 1 || newLocation == 2 || newLocation == 3 { // If more than 1 platform, setup platform2 properties
             platform2.zPosition = 2
-            platform2.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: platform.size.width, height: platform.size.height))
+            
+            if newLocation == 3 {
+                platform2 = SKSpriteNode(texture: spikeObstacleTexture)
+                platform2.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: platform2.size.width, height: platform2.size.height))
+            } else {
+                platform2.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: platform.size.width, height: platform.size.height))
+            }
             platform2.physicsBody?.isDynamic = false
             platform2.physicsBody?.categoryBitMask = platformCategory
             platform2.physicsBody?.collisionBitMask = playerCategory
@@ -395,37 +397,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 moving.addChild(platform2)
             }
             
-        /*case 3: // Spawn a single platform that moves up/down
+        case 3: // Spawn a single spike obstacle that moves up/down
             switch screenWidth {
             case 0...568: // Iphone 5
-                platform.position = CGPoint(x: frameWidth + platform.size.width, y: 87 + baseAddedHeightSingleSpawn)
-                platforms.addChild(platform)
+                platform2.position = CGPoint(x: frameWidth + platform.size.width, y: self.frame.size.height * 0.47)
+                moving.addChild(platform2)
             case 569...667: // Iphone 6
-                platform.position = CGPoint(x: frameWidth + platform.size.width, y: 87 + baseAddedHeightSingleSpawn)
-                platforms.addChild(platform)
+                platform2.position = CGPoint(x: frameWidth + platform.size.width, y: self.frame.size.height * 0.45)
+                moving.addChild(platform2)
             default: // Iphone 6 plus
-                platform.position = CGPoint(x: frameWidth + platform.size.width, y: 87 + baseAddedHeightSingleSpawn)
-                moving.addChild(platform)
-            }*/
+                platform2.position = CGPoint(x: frameWidth + platform.size.width, y: self.frame.size.height * 0.45)
+                moving.addChild(platform2)
+            }
         default:
             break
         }
         
-        // Setup platform and add to scene
-        platform.zPosition = 2
-        platform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: platform.size.width, height: platform.size.height))
-        platform.physicsBody?.isDynamic = false
-        platform.physicsBody?.categoryBitMask = platformCategory
-        platform.physicsBody?.collisionBitMask = playerCategory
-        platform.physicsBody?.contactTestBitMask = playerCategory
-        platform.physicsBody?.allowsRotation = false
-        platform.physicsBody?.restitution = 0.0
-        platform.physicsBody?.affectedByGravity = false
-        platform.name = "platformNode"
-        moving.addChild(platform)
+        if newLocation != 3 {
+            // Setup platform and add to scene
+            platform.zPosition = 2
+            platform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: platform.size.width, height: platform.size.height))
+            platform.physicsBody?.isDynamic = false
+            platform.physicsBody?.categoryBitMask = platformCategory
+            platform.physicsBody?.collisionBitMask = playerCategory
+            platform.physicsBody?.contactTestBitMask = playerCategory
+            platform.physicsBody?.allowsRotation = false
+            platform.physicsBody?.restitution = 0.0
+            platform.physicsBody?.affectedByGravity = false
+            platform.name = "platformNode"
+            moving.addChild(platform)
+        }
         
         // Setup scoreNode for scorekeeping
-        scoreNode.position = CGPoint(x: self.frame.size.width + (platform.size.width * 6), y: self.frame.midY)
+        scoreNode.position = CGPoint(x: self.frame.size.width + (platform.size.width * 2), y: self.frame.midY)
         scoreNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1, height: self.frame.height))
         scoreNode.physicsBody?.isDynamic = false
         scoreNode.physicsBody?.categoryBitMask = scoreCategory
@@ -446,11 +450,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if newLocation == 1 || newLocation == 2 { // Only apply action to platform2 if being used
             platform2.run(movePlatformAndRemove)
             
-        }/*} else if newLocation == 3 { // For a moving platform spawn (Up/down)
+        } else if newLocation == 3 { // For a moving platform spawn (Up/down)
             let movePlatformVertically = SKAction.moveBy(x: 0, y: 50, duration: moveDuration)
-            let moveGroup = SKAction.group([movePlatformAndRemove, movePlatformVertically])
+            let rotatePlatform = SKAction.rotate(byAngle: 30, duration: 5)
+            let moveGroup = SKAction.group([movePlatformAndRemove, movePlatformVertically, rotatePlatform])
             platform2.run(moveGroup)
-        }*/
+        }
         
         platform.run(movePlatformAndRemove)
         scoreNode.run(movePlatformAndRemove)
