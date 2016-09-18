@@ -17,12 +17,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         stuffInTheScene = false
         isAlive = true
-        notFirstTime = userSettingsDefaults.bool(forKey: "NotFirstTime")
+        notFirstTime = false
+      //  notFirstTime = userSettingsDefaults.bool(forKey: "NotFirstTime")
         platformLocation = 2 // Force variable gap as first obstacle
         
         // Background color
-        //backgroundColor = skyColor
-        backgroundColor = UIColor.gray
+        let tunnelBackgroundColor = UIColor.init(red: 185.0, green: 185.0, blue: 186.0, alpha: 1.0)
+        backgroundColor = tunnelBackgroundColor
         
         // Physics
         self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -1.5)
@@ -88,6 +89,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 movingTopBackground = Background(size: CGSize(width: backgroundTexture.size().width, height: backgroundTexture.size().height))
                 movingTopMountains = Mountains(size: CGSize(width: topMountainsTexture.size().width, height: topMountainsTexture.size().height))
                 movingTopMountainsBackground = MountainsBackground(size: CGSize(width: topMountainsBackgroundTexture.size().width, height: topMountainsBackgroundTexture.size().height))
+                movingTunnelForeground = TunnelForeground(size: CGSize(width: tunnelForegroundTexture.size().width, height: tunnelForegroundTexture.size().height))
+                movingTunnelMidground = TunnelMidground(size: CGSize(width: tunnelMidgroundTexture.size().width, height: tunnelMidgroundTexture.size().height))
         }
         
         movingBottomPlatform = BottomPlatform(size: CGSize(width: BottomPlatformTexture.size().width, height: BottomPlatformTexture.size().height))
@@ -100,6 +103,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         moving.addChild(movingTopMountains)
         moving.addChild(movingTopMountainsBackground)
         moving.addChild(movingTopBackground)
+        moving.addChild(movingTunnelForeground)
+        moving.addChild(movingTunnelMidground)
         
         // highscore & Scorelabel setup
         highscore = userSettingsDefaults.integer(forKey: "Highscore")
@@ -134,12 +139,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         moving.addChild(topPlatform)
         moving.addChild(coins)
         moving.addChild(scoreLabel)
-        moving.addChild(player)
+     //   moving.addChild(player)
         
         if notFirstTime == false && stuffInTheScene == false{ // Setup how to play screen for first launch time
             moving.speed = 0
             
-            let blackScreen = SKSpriteNode() // Black background
+            // Black background for tutorial image
             blackScreen.size = CGSize(width: self.frame.size.width, height: self.frame.size.height)
             blackScreen.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
             blackScreen.alpha = 0.8
@@ -148,7 +153,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             blackScreen.name = "BlackScreen"
             tutorials.addChild(blackScreen)
             
-            let tutorial = SKSpriteNode(imageNamed: "Tutorial") // Tutorial sprite
+            tutorial = SKSpriteNode(imageNamed: "Tutorial") // Tutorial sprite
             tutorial.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
             tutorial.zPosition = 8
             tutorial.name = "Tutorial"
@@ -178,6 +183,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             movingTopBackground.begin()
             movingTopMountains.begin()
             movingTopMountainsBackground.begin()
+            movingTunnelForeground.begin()
+            movingTunnelMidground.begin()
             player.startFlying()
             movingBottomGround.begin()
         }
@@ -200,18 +207,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        if hitSound != nil {
+       /* if hitSound != nil {
             let audioURL = URL(fileURLWithPath: hitSound!)
-            do {
-                hitSoundPlayer = try AVAudioPlayer(contentsOf: audioURL)
-                hitSoundPlayer.prepareToPlay()
-            } catch {
+            do {*/
+             //   hitSoundPlayer = try AVAudioPlayer(contentsOf: audioURL)
+         //       hitSound2 = SKAction.playSoundFileNamed("hit_sound_bestest.wav", waitForCompletion: false)
+            //    hitSoundPlayer.prepareToPlay()
+       /*     } catch {
                 // combine catch
                 print("Can't find audio file")
             }
-        }
+        }*/
         
-        if coinSound != nil {
+     /*   if coinSound != nil {
             let audioURL = URL(fileURLWithPath: coinSound!)
             do {
                 coinSoundPlayer = try AVAudioPlayer(contentsOf: audioURL)
@@ -220,7 +228,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // combine catch
                 print("Can't find audio file")
             }
-        }
+        }*/
+        
+        
         
         if (muted == false) {
             backgroundMusicPlayer.play()
@@ -720,7 +730,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 //Check if game is Muted
                 if (muted == false) {
-                    coinSoundPlayer.play()
+                   // coinSoundPlayer.play()
+                    coin.run(coinPickUpSound)
                 }
                 score += 5 // Increments score by 5 and makes the coin disappear
                 // Animates the coin disappearing and  delays adding the coin back to the moving node, so the same coin you collected won't show up again
@@ -741,7 +752,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     backgroundMusicPlayer.stop()
                 }
                 if (muted == false) {
-                    hitSoundPlayer.play()
+                   // hitSoundPlayer.play()
+                    player.run(hitSound2)
                 }
 
                 // Jump back a bit after colliding
@@ -764,7 +776,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 gameOverLabel.numberOfLines = 0
                 gameOverLabel.layer.anchorPoint = CGPoint(x: 1.0, y: 1.0)
-                gameOverLabel.textColor = UIColor.white
+                gameOverLabel.textColor = UIColor.black
                 gameOverLabel.layer.zPosition = 2
                 gameOverLabel.textAlignment = NSTextAlignment.center
                 
@@ -920,6 +932,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         tutorials.removeFromParent()
         resumeGameButton.removeFromSuperview()
+        moving.addChild(player)
         moving.speed = 1
         addToScene()
         startSpawningPlatforms()

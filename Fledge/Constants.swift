@@ -17,6 +17,9 @@ var movingTopMountains: Mountains!
 var movingTopMountainsBackground: MountainsBackground!
 var movingTopBackground: Background!
 var movingBottomGround: Bottomground!
+var movingTunnelForeground: TunnelForeground!
+var movingTunnelMidground: TunnelMidground!
+
 
 var isAlive = true
 var restartGameButton = UIButton()
@@ -31,10 +34,14 @@ let unmutedImage = UIImage(named: "Unmuted") as UIImage!
 var gameOverLabel = UILabel()
 
 var coin = SKSpriteNode()
+var blackScreen = SKSpriteNode()
+var tutorial = SKSpriteNode()
 
 let topMountainsTexture = SKTexture(imageNamed: "TopMountainsFront")
 let topMountainsTextureIphone6 = SKTexture(imageNamed: "TopMountainsIphone6")
 let topMountainsBackgroundTexture = SKTexture(imageNamed: "TopMountainsBackground")
+let tunnelForegroundTexture = SKTexture(imageNamed: "TunnelForeground")
+let tunnelMidgroundTexture = SKTexture(imageNamed: "TunnelMidground")
 let topMountainsBackgroundTextureIphone6 = SKTexture(imageNamed: "TopMountainsBackgroundIphone6")
 let backgroundTexture = SKTexture(imageNamed: "Background")
 let backgroundTextureIphone6 = SKTexture(imageNamed: "BackgroundIphone6")
@@ -68,6 +75,8 @@ let topBackgroundNode = SKNode()
 let platforms = SKNode()
 let tutorials = SKNode()
 let coins = SKNode()
+let hitSound2 = SKAction.playSoundFileNamed("hit_sound_bestest.wav", waitForCompletion: false)
+let coinPickUpSound = SKAction.playSoundFileNamed("point_low.wav", waitForCompletion: false)
 
 let userSettingsDefaults: UserDefaults = UserDefaults.standard
 var highscore = Int()
@@ -84,6 +93,7 @@ var muted = Bool()
 var newHighscore = Bool()
 
 let fadeOut = SKAction.fadeOut(withDuration: 0.1)
+let fadeOutTutorial = SKAction.fadeOut(withDuration: 0.5)
 
 var backgroundMusicPlayer = AVAudioPlayer()
 let backgroundMusic = Bundle.main.path(forResource: "background_music", ofType: "wav")
