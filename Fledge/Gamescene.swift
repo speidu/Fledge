@@ -23,7 +23,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Background color
         let tunnelBackgroundColor = UIColor.init(red: 185.0, green: 185.0, blue: 186.0, alpha: 1.0)
-        backgroundColor = tunnelBackgroundColor
+        backgroundColor = UIColor.gray
         
         // Physics
         self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -1.5)
@@ -293,6 +293,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if newLocation == 3 {
                 platform2 = SKSpriteNode(texture: spikeObstacleTexture)
                 platform2.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: platform2.size.width, height: platform2.size.height))
+                platform2.zPosition = 3
             } else {
                 platform2.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: platform.size.width, height: platform.size.height))
             }
