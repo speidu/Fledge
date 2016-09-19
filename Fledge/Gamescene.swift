@@ -22,8 +22,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         platformLocation = 2 // Force variable gap as first obstacle
         
         // Background color
-        let tunnelBackgroundColor = UIColor.init(red: 185.0, green: 185.0, blue: 186.0, alpha: 1.0)
-        backgroundColor = UIColor.gray
+        let tunnelBackgroundColor = UIColor.init(red: 0.483, green: 0.483, blue: 0.483, alpha: 1.0)
+        backgroundColor = tunnelBackgroundColor
         
         // Physics
         self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -1.5)
@@ -40,7 +40,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view!.addGestureRecognizer(swipeDown)
         
         // BottomPlatform properties
-        bottomPlatform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.size.width, height: BottomPlatformTexture.size().height))
+        bottomPlatform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.size.width, height: BottomPlatformTexture.size().height * 0.75))
         bottomPlatform.physicsBody?.isDynamic = false
         bottomPlatform.physicsBody?.categoryBitMask = platformCategory
         bottomPlatform.physicsBody?.collisionBitMask = playerCategory
@@ -49,7 +49,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bottomPlatform.physicsBody?.affectedByGravity = false
         
         // TopPlatform properties
-        topPlatform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.size.width, height: TopPlatformTexture.size().height))
+        topPlatform.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.size.width, height: TopPlatformTexture.size().height * 0.75))
         topPlatform.physicsBody?.isDynamic = false
         topPlatform.physicsBody?.categoryBitMask = platformCategory
         topPlatform.physicsBody?.collisionBitMask = playerCategory
@@ -84,6 +84,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 movingTopBackground = Background(size: CGSize(width: backgroundTextureIphone6.size().width, height: backgroundTextureIphone6.size().height))
                 movingTopMountains = Mountains(size: CGSize(width: topMountainsTextureIphone6.size().width, height: topMountainsTextureIphone6.size().height))
                 movingTopMountainsBackground = MountainsBackground(size: CGSize(width: topMountainsBackgroundTextureIphone6.size().width, height: topMountainsBackgroundTextureIphone6.size().height))
+                //movingTunnelForeground = TunnelForeground(size: CGSize(width: tunnelForegroundTexture.size().width, height: tunnelForegroundTexture.size().height))
+                //movingTunnelMidground = TunnelMidground(size: CGSize(width: tunnelMidgroundTexture.size().width, height: tunnelMidgroundTexture.size().height))
             default:
                 // Otherwise use defaults
                 movingTopBackground = Background(size: CGSize(width: backgroundTexture.size().width, height: backgroundTexture.size().height))
@@ -91,6 +93,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 movingTopMountainsBackground = MountainsBackground(size: CGSize(width: topMountainsBackgroundTexture.size().width, height: topMountainsBackgroundTexture.size().height))
                 movingTunnelForeground = TunnelForeground(size: CGSize(width: tunnelForegroundTexture.size().width, height: tunnelForegroundTexture.size().height))
                 movingTunnelMidground = TunnelMidground(size: CGSize(width: tunnelMidgroundTexture.size().width, height: tunnelMidgroundTexture.size().height))
+                moving.addChild(movingTunnelForeground)
+                moving.addChild(movingTunnelMidground)
         }
         
         movingBottomPlatform = BottomPlatform(size: CGSize(width: BottomPlatformTexture.size().width, height: BottomPlatformTexture.size().height))
@@ -103,8 +107,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         moving.addChild(movingTopMountains)
         moving.addChild(movingTopMountainsBackground)
         moving.addChild(movingTopBackground)
-        moving.addChild(movingTunnelForeground)
-        moving.addChild(movingTunnelMidground)
+        //moving.addChild(movingTunnelForeground)
+        //moving.addChild(movingTunnelMidground)
         
         // highscore & Scorelabel setup
         highscore = userSettingsDefaults.integer(forKey: "Highscore")
@@ -292,7 +296,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if newLocation == 3 {
                 platform2 = SKSpriteNode(texture: spikeObstacleTexture)
-                platform2.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: platform2.size.width, height: platform2.size.height))
+                platform2.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: platform2.size.width * 0.8, height: platform2.size.height * 0.8))
                 platform2.zPosition = 3
             } else {
                 platform2.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: platform.size.width, height: platform.size.height))
@@ -411,13 +415,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case 3: // Spawn a single spike obstacle that moves up/down
             switch screenWidth {
             case 0...568: // Iphone 5
-                platform2.position = CGPoint(x: frameWidth + platform.size.width, y: self.frame.size.height * 0.47)
+                if coinFlip == 0 {
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: self.frame.size.height * 0.67)
+                } else {
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: self.frame.size.height * 0.25)
+                }
                 moving.addChild(platform2)
             case 569...667: // Iphone 6
-                platform2.position = CGPoint(x: frameWidth + platform.size.width, y: self.frame.size.height * 0.45)
+                if coinFlip == 0 {
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: self.frame.size.height * 0.61)
+                } else {
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: self.frame.size.height * 0.30)
+                }
                 moving.addChild(platform2)
             default: // Iphone 6 plus
-                platform2.position = CGPoint(x: frameWidth + platform.size.width, y: self.frame.size.height * 0.45)
+                if coinFlip == 0 {
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: self.frame.size.height * 0.61)
+                } else {
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: self.frame.size.height * 0.30)
+                }
                 moving.addChild(platform2)
             }
         default:
@@ -461,10 +477,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if newLocation == 1 || newLocation == 2 { // Only apply action to platform2 if being used
             platform2.run(movePlatformAndRemove)
             
-        } else if newLocation == 3 { // For a moving platform spawn (Up/down)
-            let movePlatformVertically = SKAction.moveBy(x: 0, y: 50, duration: moveDuration)
-            let rotatePlatform = SKAction.rotate(byAngle: 30, duration: 5)
-            let moveGroup = SKAction.group([movePlatformAndRemove, movePlatformVertically, rotatePlatform])
+        } else if newLocation == 3 { // For a moving spike platform spawn (Up/down)
+            let movePlatformUp = SKAction.moveBy(x: 0, y: 200, duration: 2.5)
+            let movePlatformDown = SKAction.moveBy(x: 0, y: -200, duration: 2.5)
+            var movePlatformSequence = SKAction()
+            if coinFlip == 0 {
+                movePlatformSequence = SKAction.sequence([movePlatformDown, movePlatformUp])
+            } else {
+                movePlatformSequence = SKAction.sequence([movePlatformUp, movePlatformDown])
+            }
+            let rotatePlatform = SKAction.rotate(byAngle: 20, duration: 5)
+            let moveGroup = SKAction.group([movePlatformAndRemove, movePlatformSequence, rotatePlatform])
             platform2.run(moveGroup)
         }
         
@@ -771,13 +794,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if (newHighscore) { // Add gameover label + back to menu and restart button
                     gameOverLabel.text = "New highscore! \n \(score)"
                     gameOverLabel.font = UIFont(name: "Avenir Next", size: 34)
+                    newHighscore = false
                 } else {
                     gameOverLabel.text = "Score: \(score)"
                     gameOverLabel.font = UIFont(name: "Avenir Next", size: 40)
                 }
                 gameOverLabel.numberOfLines = 0
                 gameOverLabel.layer.anchorPoint = CGPoint(x: 1.0, y: 1.0)
-                gameOverLabel.textColor = UIColor.black
+                gameOverLabel.textColor = UIColor.white
                 gameOverLabel.layer.zPosition = 2
                 gameOverLabel.textAlignment = NSTextAlignment.center
                 

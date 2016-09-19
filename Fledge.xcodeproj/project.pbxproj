@@ -105,9 +105,9 @@
 				43B702691D7EE2BF009AF7B7 /* MountainsBackground.swift */,
 				43B7026B1D7EE2D0009AF7B7 /* Background.swift */,
 				43B7026D1D7EE2D9009AF7B7 /* TopPlatform.swift */,
-				C4DC7DA21D8EB24F00A851D1 /* TunnelForeground.swift */,
 				43B7026F1D7EE2E7009AF7B7 /* BottomPlatform.swift */,
 				43B702711D7EE2F1009AF7B7 /* Bottomground.swift */,
+				C4DC7DA21D8EB24F00A851D1 /* TunnelForeground.swift */,
 				C4DC7DA41D8EB73B00A851D1 /* TunnelMidground.swift */,
 			);
 			path = Fledge;

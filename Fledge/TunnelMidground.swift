@@ -46,7 +46,7 @@ class TunnelMidground : SKSpriteNode {
                 tunnelMidgroundSprite.position = CGPoint(x: i * tunnelMidgroundSprite.size.width, y: 260)
             default:
                 // Iphone 6 plus
-                tunnelMidgroundSprite.position = CGPoint(x: i * tunnelMidgroundSprite.size.width, y: 617)
+                tunnelMidgroundSprite.position = CGPoint(x: i * tunnelMidgroundSprite.size.width, y: 320)
             }
             addChild(tunnelMidgroundSprite)
         }
