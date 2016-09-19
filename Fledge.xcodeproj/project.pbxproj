@@ -27,6 +27,7 @@
 		43B702791D7EE34A009AF7B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43B702781D7EE34A009AF7B7 /* Assets.xcassets */; };
 		43E8DEFC1D8AEEC6008571CD /* fledge.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 43E8DEFB1D8AEEC6008571CD /* fledge.atlas */; };
 		C4A0DE9E1D8706DD005B6D3E /* point_low.wav in Resources */ = {isa = PBXBuildFile; fileRef = C4A0DE9D1D8706DD005B6D3E /* point_low.wav */; };
+		C4D5A4301D90541400B76231 /* VCR_OSD_MONO_1.001.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C4D5A42F1D90541400B76231 /* VCR_OSD_MONO_1.001.ttf */; };
 		C4DC7DA31D8EB24F00A851D1 /* TunnelForeground.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DC7DA21D8EB24F00A851D1 /* TunnelForeground.swift */; };
 		C4DC7DA51D8EB73B00A851D1 /* TunnelMidground.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DC7DA41D8EB73B00A851D1 /* TunnelMidground.swift */; };
 /* End PBXBuildFile section */
@@ -54,6 +55,7 @@
 		43B702781D7EE34A009AF7B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		43E8DEFB1D8AEEC6008571CD /* fledge.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = fledge.atlas; sourceTree = "<group>"; };
 		C4A0DE9D1D8706DD005B6D3E /* point_low.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = point_low.wav; sourceTree = "<group>"; };
+		C4D5A42F1D90541400B76231 /* VCR_OSD_MONO_1.001.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = VCR_OSD_MONO_1.001.ttf; sourceTree = "<group>"; };
 		C4DC7DA21D8EB24F00A851D1 /* TunnelForeground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TunnelForeground.swift; path = ../TunnelForeground.swift; sourceTree = "<group>"; };
 		C4DC7DA41D8EB73B00A851D1 /* TunnelMidground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TunnelMidground.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,6 +107,7 @@
 				43B702691D7EE2BF009AF7B7 /* MountainsBackground.swift */,
 				43B7026B1D7EE2D0009AF7B7 /* Background.swift */,
 				43B7026D1D7EE2D9009AF7B7 /* TopPlatform.swift */,
+				C4D5A42F1D90541400B76231 /* VCR_OSD_MONO_1.001.ttf */,
 				43B7026F1D7EE2E7009AF7B7 /* BottomPlatform.swift */,
 				43B702711D7EE2F1009AF7B7 /* Bottomground.swift */,
 				C4DC7DA21D8EB24F00A851D1 /* TunnelForeground.swift */,
@@ -183,6 +186,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4D5A4301D90541400B76231 /* VCR_OSD_MONO_1.001.ttf in Resources */,
 				43B702771D7EE328009AF7B7 /* background_music.wav in Resources */,
 				43B7024E1D7EE257009AF7B7 /* MainMenuScene.sks in Resources */,
 				43E8DEFC1D8AEEC6008571CD /* fledge.atlas in Resources */,

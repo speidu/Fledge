@@ -17,8 +17,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         stuffInTheScene = false
         isAlive = true
-        notFirstTime = false
-      //  notFirstTime = userSettingsDefaults.bool(forKey: "NotFirstTime")
+        notFirstTime = userSettingsDefaults.bool(forKey: "NotFirstTime")
         platformLocation = 2 // Force variable gap as first obstacle
         
         // Background color
@@ -114,7 +113,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         highscore = userSettingsDefaults.integer(forKey: "Highscore")
         
         score = 0
-        scoreLabel.fontName = "Avenir Next"
+        scoreLabel.fontName = "VCROSDMono"
         scoreLabel.fontColor = UIColor.white
         scoreLabel.text = "\(score)"
         scoreLabel.fontSize = 45
@@ -172,6 +171,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.view!.addSubview(resumeGameButton)
             
         } else if stuffInTheScene == false { // Add things to scene and start the game
+            moving.addChild(player)
             moving.speed = 1
             addToScene()
             startSpawningPlatforms()
@@ -793,11 +793,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 if (newHighscore) { // Add gameover label + back to menu and restart button
                     gameOverLabel.text = "New highscore! \n \(score)"
-                    gameOverLabel.font = UIFont(name: "Avenir Next", size: 34)
+                    gameOverLabel.font = UIFont(name: "VCROSDMono", size: 30)
                     newHighscore = false
                 } else {
                     gameOverLabel.text = "Score: \(score)"
-                    gameOverLabel.font = UIFont(name: "Avenir Next", size: 40)
+                    gameOverLabel.font = UIFont(name: "VCROSDMono", size: 40)
                 }
                 gameOverLabel.numberOfLines = 0
                 gameOverLabel.layer.anchorPoint = CGPoint(x: 1.0, y: 1.0)
@@ -849,7 +849,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     muteButton.frame = CGRect(x: -80, y: self.frame.size.height * 0.85, width: 50, height: 50)
                 default:
                     // Iphone 6 plus
-                    gameOverLabel.font = UIFont(name: "Avenir Next", size: 45)
+                    gameOverLabel.font = UIFont(name: "VCROSDMono", size: 40)
                     gameOverLabel.frame = CGRect(x: self.frame.size.width * 0.5 - 175, y: 210, width: 350, height: 200)
                     backToMainMenuButton.frame = CGRect(x: -80, y: self.frame.size.height * 0.6, width: 80, height: 80)
                     restartGameButton.frame = CGRect(x: restartGameButton.frame.size.width + self.frame.size.width, y: self.frame.size.height * 0.6, width: 80, height: 80)

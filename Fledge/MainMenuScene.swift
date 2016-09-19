@@ -64,9 +64,9 @@ class MainMenuScene: SKScene{
         
         //HighScoreButton Setup
         highscore = userSettingsDefaults.integer(forKey: "Highscore")
-        let highscoreLabel = SKLabelNode(fontNamed:"Avenir Next")
+        let highscoreLabel = SKLabelNode(fontNamed:"VCROSDMono")
         highscoreLabel.text = "Highscore: \(highscore)"
-        highscoreLabel.fontSize = 40
+        highscoreLabel.fontSize = 35
         highscoreLabel.zPosition = 6
         
         // ADD EVERYTHING DEFINED ABOVE TO THE CORRECT POSITION DEPENDING ON DEVICE HEIGHT (POINTS)
@@ -86,6 +86,7 @@ class MainMenuScene: SKScene{
             playButton.frame = CGRect(x: self.frame.size.width / 2.5, y: self.frame.size.height * 0.32, width: 80, height: 80)
             muteButton.frame = CGRect(x: self.frame.size.width / 2.27, y: self.frame.size.height * 0.55, width: 50, height: 50)
             highscoreLabel.position = CGPoint(x:self.frame.midX, y:CGFloat(self.frame.size.height * 0.27))
+            highscoreLabel.fontSize = 40
         }
         
         view.addSubview(self.playButton)
