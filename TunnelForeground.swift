@@ -25,7 +25,7 @@ class TunnelForeground : SKSpriteNode {
         let screenWidth = self.screenSize.height
         
         if (screenWidth == 667) {
-            TunnelForegroundTexture = SKTexture(imageNamed: "TopMountainsIphone6")
+            TunnelForegroundTexture = SKTexture(imageNamed: "TunnelForeground")
         } else {
             TunnelForegroundTexture = SKTexture(imageNamed: "TunnelForeground")
         }
@@ -43,7 +43,7 @@ class TunnelForeground : SKSpriteNode {
                 tunnelForegroundSprite.position = CGPoint(x: i * tunnelForegroundSprite.size.width, y: 260)
             case 569...667:
                 // Iphone 6
-                tunnelForegroundSprite.position = CGPoint(x: i * tunnelForegroundSprite.size.width, y: 575)
+                tunnelForegroundSprite.position = CGPoint(x: i * tunnelForegroundSprite.size.width, y: 285)
             default:
                 // Iphone 6 plus
                 tunnelForegroundSprite.position = CGPoint(x: i * tunnelForegroundSprite.size.width, y: 325)
@@ -62,10 +62,4 @@ class TunnelForeground : SKSpriteNode {
         let moveSequence = SKAction.sequence([moveGroundSprite, resetGroundSprite])
         run(SKAction.repeatForever(moveSequence))
     }
-    
-    func stop() {
-        self.removeAllActions()
-        self.removeFromParent()
-    }
-    
 }

@@ -71,6 +71,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		437069231D9154CD00E0825C /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				C4D5A42F1D90541400B76231 /* VCR_OSD_MONO_1.001.ttf */,
+			);
+			name = Font;
+			sourceTree = "<group>";
+		};
 		43B7023F1D7EE257009AF7B7 = {
 			isa = PBXGroup;
 			children = (
@@ -90,6 +98,7 @@
 		43B7024A1D7EE257009AF7B7 /* Fledge */ = {
 			isa = PBXGroup;
 			children = (
+				437069231D9154CD00E0825C /* Font */,
 				43B702731D7EE2FF009AF7B7 /* Music */,
 				43B7024B1D7EE257009AF7B7 /* AppDelegate.swift */,
 				43B7024D1D7EE257009AF7B7 /* MainMenuScene.sks */,
@@ -107,7 +116,6 @@
 				43B702691D7EE2BF009AF7B7 /* MountainsBackground.swift */,
 				43B7026B1D7EE2D0009AF7B7 /* Background.swift */,
 				43B7026D1D7EE2D9009AF7B7 /* TopPlatform.swift */,
-				C4D5A42F1D90541400B76231 /* VCR_OSD_MONO_1.001.ttf */,
 				43B7026F1D7EE2E7009AF7B7 /* BottomPlatform.swift */,
 				43B702711D7EE2F1009AF7B7 /* Bottomground.swift */,
 				C4DC7DA21D8EB24F00A851D1 /* TunnelForeground.swift */,

@@ -62,10 +62,4 @@ class Background : SKSpriteNode {
         let moveSequence = SKAction.sequence([moveGroundSprite, resetGroundSprite])
         run(SKAction.repeatForever(moveSequence))
     }
-    
-    func stop() {
-        self.removeAllActions()
-        self.removeFromParent()
-    }
-    
 }

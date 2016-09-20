@@ -61,11 +61,5 @@ class Mountains : SKSpriteNode {
         let resetGroundSprite = SKAction.moveBy(x: TopMountainTexture.size().width, y: 0, duration: 0.0)
         let moveSequence = SKAction.sequence([moveGroundSprite, resetGroundSprite])
         run(SKAction.repeatForever(moveSequence))
-    }
-    
-    func stop() {
-        self.removeAllActions()
-        self.removeFromParent()
-    }
-    
+    } 
 }

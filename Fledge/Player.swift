@@ -11,9 +11,6 @@ import SpriteKit
 
 class Player: SKSpriteNode {
     
-    let PlayerTexture1 = SKTexture(imageNamed: "Player")
-    let PlayerTexture2 = SKTexture(imageNamed: "Player2")
-    
     init(size: CGSize) {
         super.init(texture: PlayerTexture1, color: UIColor.clear, size: CGSize(width: size.width, height: size.height))
         zPosition = 7

@@ -65,7 +65,7 @@ class MainMenuScene: SKScene{
         //HighScoreButton Setup
         highscore = userSettingsDefaults.integer(forKey: "Highscore")
         let highscoreLabel = SKLabelNode(fontNamed:"VCROSDMono")
-        highscoreLabel.text = "Highscore: \(highscore)"
+        highscoreLabel.text = "HIGHSCORE: \(highscore)"
         highscoreLabel.fontSize = 35
         highscoreLabel.zPosition = 6
         
