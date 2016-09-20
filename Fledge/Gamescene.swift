@@ -744,6 +744,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 gameOverLabel.textColor = UIColor.white
                 gameOverLabel.layer.zPosition = 2
                 gameOverLabel.textAlignment = NSTextAlignment.center
+                gameOverLabel.alpha = 0.0
                 
                 // Create a play again button called restartGameButton
                 restartGameButton = UIButton(type: UIButtonType.custom)
@@ -809,6 +810,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     restartGameButton.layer.position.x =  self.frame.size.width - self.frame.size.width * 0.3
                     backToMainMenuButton.layer.position.x = self.frame.size.width - self.frame.size.width * 0.7
                     muteButton.layer.position.x = self.frame.size.width - self.frame.size.width * 0.7
+                    gameOverLabel.alpha = 1.0
                 })
             }
             

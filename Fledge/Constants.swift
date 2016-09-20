@@ -92,6 +92,7 @@ var coinSpawned = Bool()
 var muted = Bool()
 var newHighscore = Bool()
 
+let fadeIn = SKAction.fadeIn(withDuration: 0.3)
 let fadeOut = SKAction.fadeOut(withDuration: 0.1)
 let fadeOutTutorial = SKAction.fadeOut(withDuration: 0.5)
 
