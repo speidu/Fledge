@@ -858,6 +858,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             restartGameButton.layer.position.x = self.frame.size.width + restartGameButton.frame.size.width
             backToMainMenuButton.layer.position.x -= self.frame.size.width - self.frame.size.width / 2
             muteButton.layer.position.x -= self.frame.size.width - self.frame.size.width / 2
+            gameOverLabel.alpha = 0.0
         })
         
         // Call restart function after 0.5s delay
@@ -872,6 +873,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             restartGameButton.layer.position.x = self.frame.size.width + restartGameButton.frame.size.width
             backToMainMenuButton.layer.position.x -= self.frame.size.width - self.frame.size.width / 2
             muteButton.layer.position.x -= self.frame.size.width - self.frame.size.width / 2
+            gameOverLabel.alpha = 0.0
         })
         
         // Call restart function after 0.5s delay
