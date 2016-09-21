@@ -42,6 +42,14 @@ class Player: SKSpriteNode {
         run(rotate, withKey: "rotate")
     }
     
+    func resetSprite() {
+        // Rotate player in a anticlockwise direction
+        let rotate = SKAction.rotate(byAngle: CGFloat(-M_PI), duration: 0.0)
+        // Stop flying animation & start rotate animation
+        self.removeAllActions()
+        run(rotate, withKey: "resetSprite")
+    }
+    
     func stop() {
         self.removeAllActions()
     }

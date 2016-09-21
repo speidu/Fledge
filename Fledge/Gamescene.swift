@@ -145,7 +145,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             showTutorialScreen()
             
         } else if stuffInTheScene == false { // Add things to scene and start the game
-            moving.addChild(player)
+            self.addChild(player)
             moving.speed = 1
             addToScene()
             startSpawningPlatforms()
@@ -721,8 +721,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
 
                 // Jump back a bit after colliding
-                player.physicsBody?.applyImpulse(CGVector(dx: -7, dy: 7))
+                player.physicsBody?.applyImpulse(CGVector(dx: -14, dy: 14))
                 self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -6.5)
+                player.hasHitObstacle()
                 
                 // If current score is higher than highscore stored in device memory then set highscore as current score
                 if (score > highscore) {
@@ -901,7 +902,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         tutorials.removeFromParent()
         resumeGameButton.removeFromSuperview()
-        moving.addChild(player)
+        self.addChild(player)
         moving.speed = 1
         addToScene()
         startSpawningPlatforms()
@@ -964,6 +965,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             moving.addChild(scoreLabel)
             moving.addChild(coins)
             moving.speed = 1
+            player.resetSprite()
             platforms.speed = 1
             self.startSpawningPlatforms() // Start the game again
             player.startFlying()
