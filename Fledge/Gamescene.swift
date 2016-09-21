@@ -716,7 +716,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     backgroundMusicPlayer.stop()
                 }
                 if (muted == false) {
-                    player.run(hitSound2)
+                    run(hitSound2)
                 }
 
                 // Jump back a bit after colliding
@@ -732,7 +732,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 
                 if (newHighscore) { // Add gameover label + back to menu and restart button
-                    gameOverLabel.text = "NEW HIGHSCORE! \n \n \(score)"
+                    gameOverLabel.text = "NEW HIGHSCORE \n \n \(score)"
                     gameOverLabel.font = UIFont(name: "VCROSDMono", size: 30)
                     newHighscore = false
                 } else {
