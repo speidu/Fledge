@@ -813,7 +813,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     gameOverLabel.alpha = 1.0
                 })
                 
-                delay(1.0) { // Show an ad
+                delay(0.6) { // Show an ad
                     AdsUtility.chartboostInterstitial()
                 }
             }

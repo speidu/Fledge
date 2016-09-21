@@ -6,11 +6,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "Cave_L2-2.png",
+      "filename" : "cave_layer2.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "cave_layer2-2.png",
       "scale" : "3x"
     }
   ],
