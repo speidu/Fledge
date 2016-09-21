@@ -3,7 +3,7 @@
 //  Lanit
 //
 //  Created by Pasi Särkilahti on 13.2.2016.
-//  Copyright (c) 2016 Pasi Särkilahti & Teemu Salminen. All rights reserved.
+//  Copyright © 2016 Pasi Särkilahti & Teemu Salminen. All rights reserved.
 //
 
 import UIKit

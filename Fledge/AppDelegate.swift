@@ -3,19 +3,27 @@
 //  Fledge
 //
 //  Created by pasi on 6.9.2016.
-//  Copyright © 2016 pasi. All rights reserved.
+//  Copyright © 2016 Pasi Särkilahti & Teemu Salminen. All rights reserved.
 //
 
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, ChartboostDelegate {
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //Initialize Chartboost
+        let kChartboostAppID = "57e2ac7f04b0163ada4dc1c8"
+        let kChartboostAppSignature = "7bf4097b484c8d8bca619002b5a73681cacbff8d"
+
+        Chartboost.start(withAppId: kChartboostAppID, appSignature: kChartboostAppSignature, delegate: self)
+        Chartboost.setShouldRequestInterstitialsInFirstSession(false)
+        
         return true
     }
 

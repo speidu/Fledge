@@ -3,7 +3,7 @@
 //  Fledge
 //
 //  Created by pasi on 6.9.2016.
-//  Copyright © 2016 pasi. All rights reserved.
+//  Copyright © 2016 Pasi Särkilahti & Teemu Salminen. All rights reserved.
 //
 
 import Foundation

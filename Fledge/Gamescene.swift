@@ -3,7 +3,7 @@
 //
 //
 //  Created by Teemu on 13.2.2016.
-//  Copyright (c) 2016 Pasi Särkilahti & Teemu Salminen. All rights reserved.
+//  Copyright © 2016 Pasi Särkilahti & Teemu Salminen. All rights reserved.
 //
 
 import SpriteKit
@@ -812,6 +812,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     muteButton.layer.position.x = self.frame.size.width - self.frame.size.width * 0.7
                     gameOverLabel.alpha = 1.0
                 })
+                
+                delay(1.0) { // Show an ad
+                    AdsUtility.chartboostInterstitial()
+                }
             }
             
         }
