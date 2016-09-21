@@ -25,12 +25,12 @@ class Player: SKSpriteNode {
         let fledgeAtlas = SKTextureAtlas(named: "fledge")
         var fledgeFrames = [SKTexture]()
 
-        for image in 1...8 {
+        for image in 1...6 {
             let fledgeTextureName = "Fledge\(image).png"
             fledgeFrames.append(fledgeAtlas.textureNamed(fledgeTextureName))
         }
         
-        let animation = SKAction.animate(with: fledgeFrames, timePerFrame: 0.15, resize: false, restore: true)
+        let animation = SKAction.animate(with: fledgeFrames, timePerFrame: 0.12, resize: false, restore: true)
         run(SKAction.repeatForever(animation))
     }
     

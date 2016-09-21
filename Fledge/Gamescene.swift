@@ -315,8 +315,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             switch screenWidth {
             case 0...568: // Iphone 5
                 if coinFlip == 0 { // Centered gap  +15 to up/down
-                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 57 + randomAddedHeightDualSpawnPlatforms + 15) // -37 top of bottomplatform
-                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 461 + randomAddedHeightDualSpawnPlatforms) // 555 bottom of topplatform
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 57 + randomAddedHeightDualSpawnPlatforms + 15)
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 461 + randomAddedHeightDualSpawnPlatforms)
                 } else { // other gap
                     platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 57 - randomAddedHeightDualSpawnPlatforms)
                     platform.position = CGPoint(x: frameWidth + platform.size.width, y: 461 - randomAddedHeightDualSpawnPlatforms - 15)
@@ -324,11 +324,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 moving.addChild(platform2)
             case 569...667: // Iphone 6
                 if coinFlip == 0 {
-                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 87 + randomAddedHeightDualSpawnPlatforms + 15) // -7 Top of bottomplatform
-                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 491 + randomAddedHeightDualSpawnPlatforms) // 585 Bottom of topplatform
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 87 + randomAddedHeightDualSpawnPlatforms + 15)
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 491 + randomAddedHeightDualSpawnPlatforms)
                 } else {
-                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 87 - randomAddedHeightDualSpawnPlatforms) // -7 Top of bottomplatform
-                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 491 - randomAddedHeightDualSpawnPlatforms - 15) // 585 Bottom of topplatform
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 87 - randomAddedHeightDualSpawnPlatforms)
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 491 - randomAddedHeightDualSpawnPlatforms - 15)
                 }
                 moving.addChild(platform2)
             default: // Iphone 6 plus
@@ -346,8 +346,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             switch screenWidth {
             case 0...568: // Iphone 5
                 if coinFlip == 0 { // Centered gap  +15 to up/down 57
-                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 107 + randomAddedHeightDualSpawnPlatforms) // -37 top of bottomplatform
-                    platform.position = CGPoint(x: frameWidth + platform.size.width + 85, y: 411 + randomAddedHeightDualSpawnPlatforms) // 555 bottom of topplatform
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 107 + randomAddedHeightDualSpawnPlatforms)
+                    platform.position = CGPoint(x: frameWidth + platform.size.width + 85, y: 411 + randomAddedHeightDualSpawnPlatforms)
                 } else { // other gap
                     platform2.position = CGPoint(x: frameWidth + platform.size.width + 85, y: 107 - randomAddedHeightDualSpawnPlatforms)
                     platform.position = CGPoint(x: frameWidth + platform.size.width, y: 411 - randomAddedHeightDualSpawnPlatforms)
@@ -355,11 +355,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 moving.addChild(platform2)
             case 569...667: // Iphone 6
                 if coinFlip == 0 { //
-                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 137 + randomAddedHeightDualSpawnPlatforms) // -7 Top of bottomplatform
-                    platform.position = CGPoint(x: frameWidth + platform.size.width + 85, y: 441 + randomAddedHeightDualSpawnPlatforms) // 585 Bottom of topplatform
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width, y: 137 + randomAddedHeightDualSpawnPlatforms)
+                    platform.position = CGPoint(x: frameWidth + platform.size.width + 85, y: 441 + randomAddedHeightDualSpawnPlatforms)
                 } else {
-                    platform2.position = CGPoint(x: frameWidth + platform.size.width + 85, y: 137 - randomAddedHeightDualSpawnPlatforms) // -7 Top of bottomplatform
-                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 441 - randomAddedHeightDualSpawnPlatforms) // 585 Bottom of topplatform
+                    platform2.position = CGPoint(x: frameWidth + platform.size.width + 85, y: 137 - randomAddedHeightDualSpawnPlatforms)
+                    platform.position = CGPoint(x: frameWidth + platform.size.width, y: 441 - randomAddedHeightDualSpawnPlatforms)
                 }
                 moving.addChild(platform2)
             default: // Iphone 6 plus
@@ -495,7 +495,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             case 0: // Setup single platform spawn location
                 
-                if platformUpOrDown == 0 { // single bottom spawn
+                if platformUpOrDown == 0 {
                     switch screenWidth {
                     case 0...568: // Iphone 5
                         if coinMovement == 1 {
@@ -526,9 +526,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         }
                     }
                             coins.addChild(coin)
-                } else if platformUpOrDown == 1 { // Single top spawn
+                } else if platformUpOrDown == 1 {
                     switch screenWidth {
-                    case 0...568: // Iphone 5
+                    case 0...568:
                         if coinMovement == 1 {
                             coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.50)
                             coin.run(moveCoinDown)
@@ -558,10 +558,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                             coins.addChild(coin)
                 }
-            case 1: // Setup Double platform spawn (Up and down)
+            case 1:
                 switch screenWidth {
                 case 0...568: // Iphone 5
-                    if coinFlip == 0 { // Centered gap  +15 to up/down
+                    if coinFlip == 0 {
                         coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.37)
                     } else { // other gap
                         coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.54)
@@ -583,10 +583,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     coins.addChild(coin)
                 }
                 
-            case 2: // Two platforms spawn a little apart from eachother
+            case 2:
                 switch screenWidth {
                 case 0...568: // Iphone 5
-                    if coinFlip == 0 { // Centered gap  +15 to up/down 57
+                    if coinFlip == 0 {
                         if coinMovement == 1 {
                             coin.position = CGPoint(x: self.frame.size.width + coin.frame.width, y: self.frame.size.height * 0.41)
                             coin.run(moveCoinUp)
@@ -716,12 +716,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     backgroundMusicPlayer.stop()
                 }
                 if (muted == false) {
-                   // hitSoundPlayer.play()
                     player.run(hitSound2)
                 }
 
                 // Jump back a bit after colliding
-                player.physicsBody?.applyImpulse(CGVector(dx: -14, dy: 14))
+                player.physicsBody?.applyImpulse(CGVector(dx: -10, dy: 10))
                 self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -6.5)
                 player.hasHitObstacle()
                 
@@ -922,18 +921,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         backToMainMenuButton.removeFromSuperview()
         muteButton.removeFromSuperview()
         
-        
-        // Setup transition to GameScene
-        let skView = self.view! as SKView
-        skView.ignoresSiblingOrder = true
-        
-        // Remove current scene before transitioning
-        self.scene?.removeFromParent()
-        
-        // Transition effect
-        let transition = SKTransition.fade(with: backgroundColor, duration: 1.0)
-        transition.pausesOutgoingScene = false
-        
         // scene
         var scene: SKScene!
         if ButtonType == "RestartGame" { // Reset everything to original positions
@@ -974,6 +961,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
 
         } else if ButtonType == "BackToMenu" {
+            // Setup transition to GameScene
+            let skView = self.view! as SKView
+            skView.ignoresSiblingOrder = true
+            
+            // Remove current scene before transitioning
+            self.scene?.removeFromParent()
+            
+            // Transition effect
+            let transition = SKTransition.fade(with: UIColor(red: 133.0/255.0, green: 197.0/255.0, blue: 207.0/255.0, alpha: 1.0), duration: 1.0)
+            transition.pausesOutgoingScene = false
+            
            coins.enumerateChildNodes(withName: "coinNode") {
                 node, stop in
                 node.removeFromParent()
