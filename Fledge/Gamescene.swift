@@ -58,6 +58,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Call an instance of Player and setup Player properties
         player = Player(size: CGSize(width: PlayerTexture1.size().width, height: PlayerTexture1.size().height))
+        if self.frame.size.width > 410 { // For iphone 6 plus - Fledge is at same distance from right side of screen
+           player.position = CGPoint(x: self.frame.size.width / 2.8 + 25, y: self.frame.size.height * 0.5 - 50)
+        } else {
+           player.position = CGPoint(x: self.frame.size.width / 2.8, y: self.frame.size.height * 0.5 - 50)
+        }
         player.position = CGPoint(x: self.frame.size.width / 2.8, y: self.frame.size.height * 0.5 - 50)
         player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.height / 2)
         if (notFirstTime == true) {
@@ -813,7 +818,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     gameOverLabel.alpha = 1.0
                 })
                 
-                delay(0.6) { // Show an ad
+                delay(0.25) { // Show an ad
                     AdsUtility.chartboostInterstitial()
                 }
             }
