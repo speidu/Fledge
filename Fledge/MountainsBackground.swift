@@ -2,7 +2,7 @@
 //  MountainsBackground.swift
 //  Lanit
 //
-//  Created by pasi on 26.7.2016.
+//  Created by Pasi Särkilahti & Teemu Salminen on 26.7.2016.
 //  Copyright © 2016 Pasi Särkilahti & Teemu Salminen. All rights reserved.
 //
 

@@ -25,6 +25,7 @@
 		43B702751D7EE320009AF7B7 /* hit_sound_bestest.wav in Resources */ = {isa = PBXBuildFile; fileRef = 43B702741D7EE320009AF7B7 /* hit_sound_bestest.wav */; };
 		43B702771D7EE328009AF7B7 /* background_music.wav in Resources */ = {isa = PBXBuildFile; fileRef = 43B702761D7EE328009AF7B7 /* background_music.wav */; };
 		43B702791D7EE34A009AF7B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43B702781D7EE34A009AF7B7 /* Assets.xcassets */; };
+		43C67DEA1DAC0D3600C3247F /* fledge6plus.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 43C67DE91DAC0D3600C3247F /* fledge6plus.atlas */; };
 		43E8DEFC1D8AEEC6008571CD /* fledge.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 43E8DEFB1D8AEEC6008571CD /* fledge.atlas */; };
 		43FC9F461D92E5EA00C3AF6E /* Chartboost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43FC9F451D92E5EA00C3AF6E /* Chartboost.framework */; };
 		43FC9F4A1D92ED0500C3AF6E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43FC9F491D92ED0500C3AF6E /* StoreKit.framework */; };
@@ -59,8 +60,9 @@
 		43B702741D7EE320009AF7B7 /* hit_sound_bestest.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hit_sound_bestest.wav; sourceTree = "<group>"; };
 		43B702761D7EE328009AF7B7 /* background_music.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = background_music.wav; sourceTree = "<group>"; };
 		43B702781D7EE34A009AF7B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		43C67DE91DAC0D3600C3247F /* fledge6plus.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = fledge6plus.atlas; path = ../fledge6plus.atlas; sourceTree = "<group>"; };
 		43E8DEFB1D8AEEC6008571CD /* fledge.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = fledge.atlas; sourceTree = "<group>"; };
-		43FC9F451D92E5EA00C3AF6E /* Chartboost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Chartboost.framework; sourceTree = "<group>"; };
+		43FC9F451D92E5EA00C3AF6E /* Chartboost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Chartboost.framework; path = Fledge/Chartboost.framework; sourceTree = "<group>"; };
 		43FC9F471D92E6AA00C3AF6E /* BridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		43FC9F491D92ED0500C3AF6E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		43FC9F4B1D92ED0E00C3AF6E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -117,7 +119,6 @@
 		43B7024A1D7EE257009AF7B7 /* Fledge */ = {
 			isa = PBXGroup;
 			children = (
-				43FC9F451D92E5EA00C3AF6E /* Chartboost.framework */,
 				437069231D9154CD00E0825C /* Font */,
 				43B702731D7EE2FF009AF7B7 /* Music */,
 				43FC9F531D92F05600C3AF6E /* Ads */,
@@ -130,6 +131,7 @@
 				43B702531D7EE257009AF7B7 /* Main.storyboard */,
 				43B702581D7EE257009AF7B7 /* LaunchScreen.storyboard */,
 				43B702781D7EE34A009AF7B7 /* Assets.xcassets */,
+				43C67DE91DAC0D3600C3247F /* fledge6plus.atlas */,
 				43E8DEFB1D8AEEC6008571CD /* fledge.atlas */,
 				43B7025B1D7EE257009AF7B7 /* Info.plist */,
 				43B702651D7EE29D009AF7B7 /* Player.swift */,
@@ -159,6 +161,7 @@
 		43FC9F481D92ED0500C3AF6E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				43FC9F451D92E5EA00C3AF6E /* Chartboost.framework */,
 				43FC9F4F1D92ED1E00C3AF6E /* UIKit.framework */,
 				43FC9F4D1D92ED1600C3AF6E /* CoreGraphics.framework */,
 				43FC9F4B1D92ED0E00C3AF6E /* Foundation.framework */,
@@ -209,6 +212,7 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = F5LNQZA97Y;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -236,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4D5A4301D90541400B76231 /* VCR_OSD_MONO_1.001.ttf in Resources */,
+				43C67DEA1DAC0D3600C3247F /* fledge6plus.atlas in Resources */,
 				43B702771D7EE328009AF7B7 /* background_music.wav in Resources */,
 				43B7024E1D7EE257009AF7B7 /* MainMenuScene.sks in Resources */,
 				43E8DEFC1D8AEEC6008571CD /* fledge.atlas in Resources */,
@@ -388,6 +393,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = F5LNQZA97Y;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -409,6 +416,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = F5LNQZA97Y;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

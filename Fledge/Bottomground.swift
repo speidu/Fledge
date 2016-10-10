@@ -2,7 +2,7 @@
 //  Bottomground.swift
 //  Lanit
 //
-//  Created by pasi on 1.8.2016.
+//  Created by Pasi Särkilahti & Teemu Salminen on 1.8.2016.
 //  Copyright © 2016 Pasi Särkilahti & Teemu Salminen. All rights reserved.
 //
 

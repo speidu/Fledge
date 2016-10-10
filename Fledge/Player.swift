@@ -2,7 +2,7 @@
 //  Player.swift
 //  Lanit
 //
-//  Created by Teemu on 25.2.2016.
+//  Created by Pasi Särkilahti & Teemu Salminen on 25.2.2016.
 //  Copyright © 2016 Pasi Särkilahti & Teemu Salminen. All rights reserved.
 //
 
@@ -22,6 +22,7 @@ class Player: SKSpriteNode {
     
     // Animation normal
     func startFlying() {
+        
         let fledgeAtlas = SKTextureAtlas(named: "fledge")
         var fledgeFrames = [SKTexture]()
 
@@ -30,7 +31,7 @@ class Player: SKSpriteNode {
             fledgeFrames.append(fledgeAtlas.textureNamed(fledgeTextureName))
         }
         
-        let animation = SKAction.animate(with: fledgeFrames, timePerFrame: 0.12, resize: false, restore: true)
+        let animation = SKAction.animate(with: fledgeFrames, timePerFrame: 0.1, resize: false, restore: true)
         run(SKAction.repeatForever(animation))
     }
     
@@ -43,9 +44,7 @@ class Player: SKSpriteNode {
     }
     
     func resetSprite() {
-        // Rotate player in a anticlockwise direction
         let rotate = SKAction.rotate(byAngle: CGFloat(-M_PI), duration: 0.0)
-        // Stop flying animation & start rotate animation
         self.removeAllActions()
         run(rotate, withKey: "resetSprite")
     }

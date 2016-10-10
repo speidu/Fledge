@@ -14,7 +14,9 @@ class AdsUtility {
     class func chartboostInterstitial() {
         // Play the ad
         Chartboost.showInterstitial(CBLocationHomeScreen)
-        
+    }
+    
+    class func chartBoostInterstitialCache() {
         // Try to cache the next ad
         Chartboost.cacheInterstitial(CBLocationHomeScreen)
     }

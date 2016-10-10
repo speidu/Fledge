@@ -2,7 +2,7 @@
 //  Constants.swift
 //  Fledge
 //
-//  Created by pasi on 6.9.2016.
+//  Created by Pasi Särkilahti & Teemu Salminen on 6.9.2016.
 //  Copyright © 2016 Pasi Särkilahti & Teemu Salminen. All rights reserved.
 //
 
@@ -91,6 +91,9 @@ var platformUpOrDown = Int()
 var coinSpawned = Bool()
 var muted = Bool()
 var newHighscore = Bool()
+
+// For ads
+var didShowAds = 0
 
 let fadeIn = SKAction.fadeIn(withDuration: 0.3)
 let fadeOut = SKAction.fadeOut(withDuration: 0.1)

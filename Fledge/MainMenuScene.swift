@@ -2,7 +2,7 @@
 //  MainMenuScene.swift
 //  Lanit
 //
-//  Created by Pasi Särkilahti on 13.2.2016.
+//  Created by Pasi Särkilahti & Teemu Salminen on 13.2.2016.
 //  Copyright © 2016 Pasi Särkilahti & Teemu Salminen. All rights reserved.
 //
 

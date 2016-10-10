@@ -2,7 +2,7 @@
 //  GameScene.swift
 //
 //
-//  Created by Teemu on 13.2.2016.
+//  Created by Pasi Särkilahti & Teemu Salminen on 13.2.2016.
 //  Copyright © 2016 Pasi Särkilahti & Teemu Salminen. All rights reserved.
 //
 
@@ -221,7 +221,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func startSpawningPlatforms() { // Call spawnPlatforms function every nth second
+    func startSpawningPlatforms() { // Call spawnPlatforms & spawnCoins function every nth second
         let actionwait = SKAction.wait(forDuration: 1.55)
         let actionrun = SKAction.run({
             self.spawnPlatforms()
@@ -709,6 +709,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 scoreLabel.text = "\(score)" // Update scoreLabels text
                 
             }   else if (contact.bodyA.categoryBitMask == platformCategory || contact.bodyB.categoryBitMask == platformCategory) {
+                
                 // Player has died, stop the game && stop spawning platforms
                 isAlive = false
                 moving.speed = 0
@@ -818,11 +819,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     gameOverLabel.alpha = 1.0
                 })
                 
-                delay(0.25) { // Show an ad
+                didShowAds += 1 // Show an ad every 3rd death
+                if didShowAds == 1 { // load the ad before showing it
+                    AdsUtility.chartBoostInterstitialCache()
+                } else if didShowAds == 3 {
                     AdsUtility.chartboostInterstitial()
+                    didShowAds = 0
                 }
             }
-            
         }
     }
     
@@ -899,6 +903,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // Remove tutorial screen and start the game
     func resumeGameButtonAction(_ sender: UIButton) {
         tutorials.enumerateChildNodes(withName: "BlackScreen") {
             node, stop in

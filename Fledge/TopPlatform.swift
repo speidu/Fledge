@@ -2,7 +2,7 @@
 //  TopPlatform.swift
 //  Lanit
 //
-//  Created by Teemu on 10.4.2016.
+//  Created by Pasi Särkilahti & Teemu Salminen on 10.4.2016.
 //  Copyright © 2016 Pasi Särkilahti & Teemu Salminen. All rights reserved.
 //
 

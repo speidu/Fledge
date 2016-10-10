@@ -2,7 +2,7 @@
 //  BridgingHeader.h
 //  Fledge
 //
-//  Created by pasi on 21.9.2016.
+//  Created by Pasi Särkilahti & Teemu Salminen on 21.9.2016.
 //  Copyright © 2016 Pasi Särkilahti & Teemu Salminen. All rights reserved.
 //
 

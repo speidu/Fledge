@@ -6,12 +6,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "obstacle_round_iphone5-2.png",
+      "filename" : "obstacle_round_fulldark_iphone5.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "obstacle_round_iphone6plus.png",
+      "filename" : "obstacle_round_fulldark_6plus_338x338.png",
       "scale" : "3x"
     }
   ],
